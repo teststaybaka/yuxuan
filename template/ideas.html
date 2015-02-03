@@ -1,0 +1,14 @@
+{% extends "template/base.html" %}
+{% block head %}
+{{ super() }}
+<link href="/static/ideas.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block side_bar %}
+<div id="crazy-ideas"><a href="{{ uri_for('crazy_ideas') }}">Crazy Ideas</a></div>
+<div id="dreams"><a href="{{ uri_for('crazy_ideas') }}">Dreams</a></div>
+{% endblock %}
+
+{% block main_body %}
+
+{% endblock %}

@@ -1,0 +1,4 @@
+yuxuanalan
+http://yuxuanalan.appspot.com/
+local startup: dev_appserver.py yuxuanalan
+remote deploy: appcfg.py -A yuxuanalan update yuxuanalan

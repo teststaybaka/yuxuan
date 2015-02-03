@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    {% block head %}
+        <title>Sword Master!</title>
+        <link href="/static/base.css" rel="stylesheet" type="text/css">
+        <script src="/static/base.js" language="JavaScript" type="text/javascript"></script>
+    {% endblock %}
+    </head>
+    <body>
+        <div id="header">
+            {% block header %}
+            <div id="name-logo">
+                <img src="/static/logo.png">
+                <span>Alan/Yuxuan Xie</span>
+            </div>
+            {% if need_search %}
+            <div id="site-search">
+                <input class="text" id="search-field" type="text"/>
+                <button class="search" id="search-button">Search</button>
+            </div>
+            {% endif %}
+            <a class="navigation" id="home-nav" href="{{ uri_for('home') }}">Home</a>
+            <a class="navigation" id="about-nav" href="{{ uri_for('about') }}">About</a>
+            <a class="navigation" id="projects-nav" href="{{ uri_for('crazy_projects') }}">Projects</a>
+            <a class="navigation" id="ideas-nav" href="{{ uri_for('crazy_ideas') }}">Ideas</a>
+            {% endblock %}
+        </div>
+
+        <div id="body" class="container">
+            <div id="side-bar">
+                {% block side_bar %}
+                {% endblock %}
+            </div>
+            <div id="main-body">
+                {% block main_body %}
+                {% endblock %}
+            </div>
+        </div>
+
+        <div id="footer">
+            {% block footer %}
+            {% endblock %}
+        </div>
+    </body>
+</html>
