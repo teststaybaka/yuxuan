@@ -4,14 +4,20 @@ import os
 import logging
 import jinja2
 import webapp2
+import json
+import cStringIO
+import itertools
+import mimetools
+import mimetypes
+import urllib
+import urllib2
 from webapp2_extras import sessions
 from jinja2 import Undefined
-from google.appengine.ext import db
+from google.appengine.ext import ndb
+from google.appengine.api import mail
+from google.appengine.ext.webapp import blobstore_handlers
 
 from models import *
-
-# FACEBOOK_APP_ID = '797761393603664'
-# FACEBOOK_APP_SECRET = 'd95c7c45b86a757f44b7c4991a0b7f47'
 
 class SilentUndefined(Undefined):
     '''
@@ -31,41 +37,6 @@ env.globals = {
 }
 
 class BaseHandler(webapp2.RequestHandler):
-    @property
-    def current_user(self):
-        cookie = facebook.get_user_from_cookie(self.request.cookies,
-                                                   FACEBOOK_APP_ID,
-                                                   FACEBOOK_APP_SECRET)
-        logging.info(cookie)
-        if cookie:
-            user = User.get_by_key_name(cookie["uid"])
-            if not user:
-                logging.info("not existing")
-                # Not an existing user so get user info
-                graph = facebook.GraphAPI(cookie["access_token"])
-                profile = graph.get_object("me")
-                user = User(
-                    key_name=str(profile["id"]),
-                    id=str(profile["id"]),
-                    name=profile["name"],
-                    profile_url=profile["link"],
-                    access_token=cookie["access_token"]
-                )
-                user.put()
-            elif user.access_token != cookie["access_token"]:
-                user.access_token = cookie["access_token"]
-                user.put()
-            
-            self.session["user"] = dict(
-                name=user.name,
-                profile_url=user.profile_url,
-                id=user.id,
-                access_token=user.access_token
-            )
-            return self.session.get("user")
-        else:
-            return None
-
     def dispatch(self):
         """
         This snippet of code is taken from the webapp2 framework documentation.
@@ -89,45 +60,120 @@ class BaseHandler(webapp2.RequestHandler):
         """
         return self.session_store.get_session()
 
+    def render(self, tempname, context = {}):
+        path = 'template/' + tempname + '.html'
+        template = env.get_template(path)
+        self.response.write(template.render(context))
+
+    def notify(self, message, message_type='error'):
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps({
+            'type': message_type,
+            'message': message
+        }))
+
+class MultiPartForm(object):
+    """Accumulate the data to be used when posting a form."""
+
+    def __init__(self):
+        self.form_fields = []
+        self.files = []
+        self.boundary = mimetools.choose_boundary()
+        return
+    
+    def get_content_type(self):
+        return 'multipart/form-data; boundary=%s' % self.boundary
+
+    def add_field(self, name, value):
+        """Add a simple field to the form data."""
+        self.form_fields.append((name, value))
+        return
+
+    def add_file(self, fieldname, filename, fileHandle, mimetype=None):
+        """Add a file to be uploaded."""
+        body = fileHandle.read()
+        if mimetype is None:
+            mimetype = mimetypes.guess_type(filename)[0] or 'application/octet-stream'
+        self.files.append((fieldname, filename, mimetype, body))
+        return
+    
+    def __str__(self):
+        """Return a string representing the form data, including attached files."""
+        # Build a list of lists, each containing "lines" of the
+        # request.  Each part is separated by a boundary string.
+        # Once the list is built, return a string where each
+        # line is separated by '\r\n'.  
+        parts = []
+        part_boundary = '--' + self.boundary
+        
+        # Add the form fields
+        parts.extend(
+            [ part_boundary,
+              'Content-Disposition: form-data; name="%s"' % name,
+              '',
+              value,
+            ]
+            for name, value in self.form_fields
+            )
+        
+        # Add the files to upload
+        parts.extend(
+            [ part_boundary,
+              'Content-Disposition: file; name="%s"; filename="%s"' % \
+                 (field_name, filename),
+              'Content-Type: %s' % content_type,
+              '',
+              body,
+            ]
+            for field_name, filename, content_type, body in self.files
+            )
+        
+        # Flatten the list and add closing boundary marker,
+        # then return CR+LF separated data
+        flattened = list(itertools.chain(*parts))
+        flattened.append('--' + self.boundary + '--')
+        flattened.append('')
+        return '\r\n'.join(flattened)
+        
 class Home(BaseHandler):
     def get(self):
-        context = {}
-        template = env.get_template('template/home.html')
-        self.response.write(template.render(context))
+        self.render('home')
 
 class About(BaseHandler):
     def get(self):
-        passage = '''Graduated from Tsinghua University, I'm now a student at Columbia University in the City of New York, pursuing master degree.<br><br>
-        Majored in computer science, I've learned various algorithms in various domains and coded a lot. I'm interested in Computer Vision, Artificial Intelligence. But I kinda hate to do any research in a lab, under the pressure that you have to publish any paper each year.<br><br>
-        So I'v decided to be a software engineer as my career. Now, I'm concentrating on website building techniques. I've also got several ideas and I'm now working on them. Check it out in my projects.<br><br>
-        Besides, I've got a lot of other ideas. I want to realize them all but they require tons of time and many different skills. If you have any interest in any of them, please feel free to contact me.<br><br>
-        As a life long dream, I'd like to see a large leap in virtual reality technology which incorporates brain-machine interface. I also want to witness the birth of the real artificial intelligence.<br><br>
-        Someone may say that I have too many desires. But as long as I live, I will persist in realizing them.<br><br>
-        '''
-        context = {'title': 'We want. We live.', 'passage':passage}
-        template = env.get_template('template/about.html')
-        self.response.write(template.render(context))
+        self.render('about')
 
-class CrazyProjects(BaseHandler):
+class Projects(BaseHandler):
     def get(self):
-        context = {}
-        template = env.get_template('template/home.html')
-        self.response.write(template.render(context))
+        self.render('projects')
 
-class CrazyIdeas(BaseHandler):
+class Ideas(BaseHandler):
     def get(self):
-        context = {}
-        template = env.get_template('template/home.html')
-        self.response.write(template.render(context))
+        self.render('ideas')
 
 class Contact(BaseHandler):
     def get(self):
-        context = {}
-        template = env.get_template('template/home.html')
-        self.response.write(template.render(context))
+        self.render('contact')
 
 class HireMe(BaseHandler):
     def get(self):
-        context = {}
-        template = env.get_template('template/home.html')
-        self.response.write(template.render(context))
+        self.render('hire_me')
+
+class SendEmail(BaseHandler):
+    def post(self):
+        try:
+            name = self.request.get('name').strip()
+            email = self.request.get('email').strip()
+            subject = self.request.get('subject').strip()
+            content = self.request.get('content').strip()
+
+            message = mail.EmailMessage()
+            message.sender = 'yuxuanalan@appspot.gserviceaccount.com'
+            message.to = 'teststaybaka@gmail.com'
+            message.subject = subject
+            message.body = 'An email send from '+email+'.\n\n'+ content
+            message.send()
+
+            self.notify('Thank you. I\'ve recieved your email :P', 'success')
+        except Exception, e:
+            self.notify(str(e), 'error')

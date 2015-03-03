@@ -4,17 +4,36 @@
 <link href="/static/about.css" rel="stylesheet" type="text/css">
 {% endblock %}
 
+{% block about_active %}
+active
+{% endblock %}
+
 {% block side_bar %}
-<a href="{{ uri_for('about') }}" id="about" class="side">About</a>
-<a href="{{ uri_for('contact') }}" id="contact" class="side">Contact</a>
-<a href="{{ uri_for('hire_me') }}" id="hire-me" class="side">Hire Me</a>
+<a href="{{ uri_for('about') }}" class="side {% block side_about_active %}active{% endblock %}">About</a>
+<a href="{{ uri_for('contact') }}" class="side {% block side_contact_active %}{% endblock %}">Contact</a>
+<a href="{{ uri_for('hire_me') }}" class="side {% block side_hire_active %}{% endblock %}">Hire Me</a>
 {% endblock %}
 
 {% block main_body %}
-<h1>
-    {{ title }}
-</h1>
+<h2>
+    Dreams drive me forward
+</h2>
 <p>
-    {{ passage }}
+    Hello there, I'm Yuxna Xie or Alan. Welcome to my website. <!-- You won't feel boring here. -->
+</p>
+<p>
+    First let me introduce myself. I'm a student graduated from Tsinghua University and now studying at Columbia University in the City of New York, pursuing master degree.  Majored in computer science, I've learned and coded a lot.
+</p>
+<p>
+   During these studying days, my mind is being filled with tons of ideas. Even though I know little about some of them, I won't stop my pace.
+</p>
+<p>
+    The very first idea is a danmaku video website, which makes it different from the other video sites is <i><b>Danmaku</b></i>. Here, <i>danmaku</i> means comments, but instead of leaving them below the video, those comments are flying across the screen while playing. You may think they will distract you from enjoying the video. I had the same thoughts as you before, but after several tries, I'm incredible attracted by this new type of video watching.
+</p>
+<p>
+    The website is on building now.<a class="catch-button" href="https://dan-tube.appspot.com">Go to it → dan-tube.appspot.com</a>
+</p>
+<p>
+    Another idea is to make an action game. Well, it's not really the case. This game project is just a warnup for the following project that I'm so exciting about.
 </p>
 {% endblock %}

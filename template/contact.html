@@ -1,15 +1,34 @@
-{% extends "template/base.html" %}
+{% extends "template/about.html" %}
 {% block head %}
 {{ super() }}
-<link href="/static/contact.css" rel="stylesheet" type="text/css">
 {% endblock %}
 
-{% block side_bar %}
-<div id="about"><a href="{{ uri_for('about') }}">About</a></div>
-<div id="contact" class="active side"><a href="{{ uri_for('contact') }}">Contact</a></div>
-<div id="hire-me"><a href="{{ uri_for('hire_me') }}">Hire Me</a></div>
-{% endblock %}
+{% block side_about_active %}{% endblock %}
+{% block side_contact_active %}active{% endblock %}
 
 {% block main_body %}
-
+<h2>
+    Contact me
+</h2>
+<form method="POST" action="send_email">
+    <div class="input-line">
+        <label>Name </label>
+        <input type="text" name="name" placeholder="Can you tell me your name?">
+    </div>
+    <div class="input-line">
+        <label>Email </label>
+        <input type="text" name="email" placeholder="What's your email?">
+    </div>
+    <div class="input-line">
+        <label>Subject </label>
+        <input type="text" name="subject" placeholder="What do you want to say to me?">
+    </div>
+    <div class="input-line">
+        <label>Message </label>
+        <textarea name="content" placeholder="I'm listening."></textarea>
+    </div>
+    <div class="input-line">
+        <input type="submit" class="button special" value="Send">
+    </div>
+</form>
 {% endblock %}

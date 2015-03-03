@@ -1,14 +1,10 @@
-{% extends "template/base.html" %}
+{% extends "template/about.html" %}
 {% block head %}
 {{ super() }}
-<link href="/static/hire_me.css" rel="stylesheet" type="text/css">
 {% endblock %}
 
-{% block side_bar %}
-<div id="about"><a href="{{ uri_for('about') }}">About</a></div>
-<div id="contact"><a href="{{ uri_for('contact') }}">Contact</a></div>
-<div id="hire-me" class="active side"><a href="{{ uri_for('hire_me') }}">Hire Me</a></div>
-{% endblock %}
+{% block side_about_active %}{% endblock %}
+{% block side_hire_active %}active{% endblock %}
 
 {% block main_body %}
 

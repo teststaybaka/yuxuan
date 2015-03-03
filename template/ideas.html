@@ -4,9 +4,14 @@
 <link href="/static/ideas.css" rel="stylesheet" type="text/css">
 {% endblock %}
 
+{% block ideas_active %}
+active
+{% endblock %}
+
 {% block side_bar %}
-<div id="crazy-ideas"><a href="{{ uri_for('crazy_ideas') }}">Crazy Ideas</a></div>
-<div id="dreams"><a href="{{ uri_for('crazy_ideas') }}">Dreams</a></div>
+<a href="{{ uri_for('about') }}" class="side {% block side_about_active %}active{% endblock %}">Overview</a>
+<a href="{{ uri_for('contact') }}" class="side {% block side_contact_active %}{% endblock %}"></a>
+<a href="{{ uri_for('hire_me') }}" class="side {% block side_hire_active %}{% endblock %}"></a>
 {% endblock %}
 
 {% block main_body %}

@@ -4,9 +4,14 @@
 <link href="/static/projects.css" rel="stylesheet" type="text/css">
 {% endblock %}
 
+{% block projects_active %}
+active
+{% endblock %}
+
 {% block side_bar %}
-<div id="crazy_projects" class="active side"><a href="{{ uri_for('crazy_projects') }}">Crazy Projects</a></div>
-<div id="course-projects"><a href="{{ uri_for('course_projects') }}">Course Projects</a></div>
+<a href="{{ uri_for('about') }}" class="side {% block side_about_active %}active{% endblock %}">Overview</a>
+<a href="{{ uri_for('contact') }}" class="side {% block side_contact_active %}{% endblock %}">DanTube</a>
+<a href="{{ uri_for('hire_me') }}" class="side {% block side_hire_active %}{% endblock %}">Youmu blade dance</a>
 {% endblock %}
 
 {% block main_body %}

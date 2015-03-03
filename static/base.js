@@ -1,28 +1,39 @@
-function about_active() {
-    var url = location.href.split('/')
-    var side_nav;
-    if (url[url.length-1] == 'about') {
-        side_nav = document.getElementById('about');
-    } else if (url[url.length-1] == 'contact') {
-        side_nav = document.getElementById('contact');
-    } else {
-        side_nav = document.getElementById('hire_me');
-    }
-    side_nav.setAttribute('class', 'side active');
-};
+function pop_ajax_message(content, type) {
+     $('#ajax-message-box').append('<div class="ajax-message '+type+'"> \
+            <div class="ajax-icon '+type+'"></div> \
+            <div class="ajax-content">'+content+'</div> \
+        </div>');
 
-window.onload = function() {
-    var url = location.href.split('/')
-    var nav;
-    if (url[url.length-1].indexOf('about') > -1) {
-        nav = document.getElementById('about-nav');
-        about_active();
-    } else if (url[url.length-1].indexOf('projects') > -1) {
-        nav = document.getElementById('projects-nav');
-    } else if (url[url.length-1].indexOf('ideas') > -1) {
-        nav = document.getElementById('ideas-nav');
-    } else {
-        nav = document.getElementById('home-nav');
-    }
-    nav.setAttribute('class', 'navigation active');
-};
+    var lasts = $('div.ajax-message:last-child');
+    lasts.height(lasts[0].scrollHeight);
+    // console.log(lasts[0].scrollHeight);
+
+    setTimeout(function() {
+        lasts.height(0);
+        setTimeout(function() {
+            lasts.remove();
+        }, 280);
+    }, 5000);
+}
+
+$(document).ready(function() {
+    $('form').submit(function(evt) {
+        $('input.button').prop('disabled', true);
+        $.ajax({
+            type: 'POST',
+            url: evt.target.action, 
+            data: $(evt.target).serialize(), 
+            success: function(result) {
+                pop_ajax_message(result.message, result.type);
+                $('input.button').prop('disabled', false);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr.status);
+                console.log(thrownError);
+                pop_ajax_message('Network error', 'error');
+                $('input.button').prop('disabled', false);
+            }
+        });
+        return false;
+    });
+});

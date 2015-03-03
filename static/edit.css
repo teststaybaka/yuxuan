@@ -1,0 +1,106 @@
+select {
+    margin: 20px 0;
+    font-size: 14px;
+    padding: 2px;
+    display: block;
+}
+
+div.file-input-line {
+    margin: 20px 0;
+}
+
+div.remove-image {
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+div.remove-image:hover, #add-more:hover {
+    color: rgb(0,140,255);
+}
+
+#add-more-line {
+    font-size: 14px;
+    margin: 20px 0;
+}
+
+#add-more {
+    cursor: pointer;
+    display: inline-block;
+}
+
+#submit-button {
+    margin: 20px 0;
+    display: block;
+}
+
+#ajax-message-box {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+label.image-url {
+    padding-left: 10px;
+    font-size: 14px;
+    color: rgb(100,100,100);
+}
+
+div.ajax-message {
+    border: 1px solid rgb(200,200,200);
+    background-color: rgb(255,255,255);
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    height: 0;
+    -webkit-transition: height .3s; /* For Safari 3.1 to 6.0 */
+    transition: height .3s;
+    overflow: hidden;
+    box-shadow: -2px 2px 4px rgb(200,200,200);
+}
+
+/*div.ajax-message.success {
+    border: 3px solid rgb(97,194,84);
+    background-color: rgb(227,255,223);
+}
+
+div.ajax-message.error {
+    border: 3px solid rgb(222,65,65);
+    background-color: rgb(255,240,240);
+}*/
+
+div.ajax-icon {
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+    margin-left: 15px;
+    background-image: url("/static/basic_icons.png");
+}
+
+div.ajax-icon.success {
+    background-position: 0 -704px;
+}
+
+div.ajax-icon.info {
+    background-position: 0 -670px;
+}
+
+div.ajax-icon.warning {
+    background-position: 0 -739px;
+}
+
+div.ajax-icon.error {
+    background-position: 0 -636px;
+}
+
+div.ajax-content {
+    display: inline-block;
+    vertical-align: middle;
+    word-wrap: break-word;
+    width: 220px;
+    /*font-size: 14px;*/
+    /*color: rgb(100,100,100);*/
+    padding: 20px 20px 20px 0;
+}

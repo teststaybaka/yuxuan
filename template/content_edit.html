@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sword Master!</title>
+        <link href="/static/edit.css" rel="stylesheet" type="text/css">
+        <script src="/static/jquery.min.js" language="JavaScript" type="text/javascript" ></script>
+        <script src="/static/ckeditor/ckeditor.js"></script>
+        <script src="/static/edit.js" language="JavaScript" type="text/javascript" ></script>
+    </head>
+    <body>
+        <form id="content-form" action="{{ uri_for('content_edit') }}" method="POST">
+            <textarea name="content" id="editor"></textarea>
+            <select name="category">
+                <option value="dantube">DanTube</option>
+            </select>
+            <div id="add-more-line">
+                <div id="add-more">Add more</div>
+            </div>
+            <input type="submit" value="submit" id="submit-button">
+        </form>
+        
+        <div id="ajax-message-box">
+        </div>
+    </body>
+</html>

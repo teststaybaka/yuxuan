@@ -4,6 +4,7 @@
     {% block head %}
         <title>Sword Master!</title>
         <link href="/static/base.css" rel="stylesheet" type="text/css">
+        <script src="/static/jquery.min.js" language="JavaScript" type="text/javascript" ></script>
         <script src="/static/base.js" language="JavaScript" type="text/javascript"></script>
     {% endblock %}
     </head>
@@ -11,8 +12,10 @@
         <div id="header">
             {% block header %}
             <div id="name-logo">
-                <img src="/static/logo.png">
-                <span>Alan/Yuxuan Xie</span>
+                <a href="">
+                    <img src="/static/logo.png">
+                    <span>Yuxuan Xie (Alan)</span>
+                </a>
             </div>
             {% if need_search %}
             <div id="site-search">
@@ -20,10 +23,10 @@
                 <button class="search" id="search-button">Search</button>
             </div>
             {% endif %}
-            <a class="navigation" id="home-nav" href="{{ uri_for('home') }}">Home</a>
-            <a class="navigation" id="about-nav" href="{{ uri_for('about') }}">About</a>
-            <a class="navigation" id="projects-nav" href="{{ uri_for('crazy_projects') }}">Projects</a>
-            <a class="navigation" id="ideas-nav" href="{{ uri_for('crazy_ideas') }}">Ideas</a>
+            <a class="navigation {% block home_active %}{% endblock %}" href="{{ uri_for('home') }}">Home</a>
+            <a class="navigation {% block about_active %}{% endblock %}" href="{{ uri_for('about') }}">About</a>
+            <a class="navigation {% block projects_active %}{% endblock %}" href="{{ uri_for('projects') }}">Projects</a>
+            <a class="navigation {% block ideas_active %}{% endblock %}" href="{{ uri_for('ideas') }}">Ideas</a>
             {% endblock %}
         </div>
 
@@ -38,9 +41,7 @@
             </div>
         </div>
 
-        <div id="footer">
-            {% block footer %}
-            {% endblock %}
+        <div id="ajax-message-box">
         </div>
     </body>
 </html>
