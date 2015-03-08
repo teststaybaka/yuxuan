@@ -1,0 +1,47 @@
+{% extends "template/per_experience.html" %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block main_body %}
+<div class="record-body">
+    <div class="record-title-line">
+        <div class="record-date">{{ article.date }}</div>
+        <div class="record-title">{{ article.title }}</div>
+    </div>
+    <div class="record-content">{{ article.content }}</div>
+</div>
+<div class="record-change-line container">
+    {% if previous %}
+    <a class="black-link record-previous" href="{{ uri_for('record', record_id=previous.id) }}"><span class="arrow-span">&lt;&lt;</span> {{ previous.title }}</a>
+    {% endif %}
+    {% if next %}
+    <a class="black-link record-next" href="{{ uri_for('record', record_id=next.id) }}">{{ next.title }} <span class="arrow-span">&gt;&gt;</span></a>
+    {% endif %}
+    <a class="black-link record-back" href="{{ uri_for('experience', category=article.category) }}">Back</a>
+</div>
+<div class="comments-num">Comments <span class="comments-num">{{ comments|length }}</span></div>
+<div class="comment-block">
+    {% if comments|length == 0 %}
+    <div class="no-comment">Post your comment here.</div>
+    {% endif %}
+    {% for comment in comments %}
+    <div class="comment-entry">
+        <div class="comment-title-line">
+            <div class="comment-name">{{ comment.name }}</div>
+            <div class="comment-time">{{ comment.date }}</div>
+        </div>
+        <div class="comment-content">{{ comment.content }}</div>
+    </div>
+    {% endfor %}
+    <form id="comment-form" class="container" method="POST" action="{{ uri_for('comment_post', record_id=article.id) }}">
+        <div class="input-left">
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="text" name="email" placeholder="Email" required>
+        </div>
+        
+        <textarea name="content" placeholder="Comment" required></textarea>
+        <input type="submit" class="button special" value="Post">
+    </form>
+</div>
+{% endblock %}

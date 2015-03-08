@@ -1,0 +1,88 @@
+{% extends "template/base.html" %}
+{% block head %}
+{{ super() }}
+<link href="/static/experiences.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block experiences_active %}
+active
+{% endblock %}
+
+{% block side_bar %}
+<a href="{{ uri_for('experiences') }}" class="side {% block side_overview_active %}active{% endblock %}">Overview</a>
+<a href="{{ uri_for('experience', category='dantube') }}" class="side {% block side_dantube_active %}{% endblock %}">DanTube</a>
+<a href="{{ uri_for('experience', category='youmu_blade_dance') }}" class="side {% block side_action_game_active %}{% endblock %}">Youmu Blade Dance</a>
+<a href="{{ uri_for('experience', category='course') }}" class="side {% block side_course_active %}{% endblock %}">Course Projects</a>
+<a href="{{ uri_for('experience', category='others') }}" class="side {% block side_others_active %}{% endblock %}">Others</a>
+{% endblock %}
+
+{% block main_body %}
+<div class="exp-overview-part">
+    <a class="exp-title-line" href="{{ uri_for('experience', category='dantube') }}">
+        <div class="exp-title-head tv"></div>
+        <div class="exp-title">DanTube</div>
+        <div class="exp-title-bar"></div>
+    </a>
+    <div class="exp-overview-list">
+        {% for article in dantube %}
+        <a class="exp-overview-list-entry" href="{{ uri_for('record', record_id=article.id) }}">
+            <div class="exp-overview-list-entry container">
+                <span class="exp-overview-title">{{ article.title }}</span>
+                <span class="exp-overview-date">{{ article.date }}</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+<div class="exp-overview-part">
+    <a class="exp-title-line" href="{{ uri_for('experience', category='youmu_blade_dance') }}">
+        <div class="exp-title-head sword"></div>
+        <div class="exp-title">Youmu Blade Dance</div>
+        <div class="exp-title-bar"></div>
+    </a>
+    <div class="exp-overview-list">
+        {% for article in youmu_blade_dance %}
+        <a class="exp-overview-list-entry" href="{{ uri_for('record', record_id=article.id) }}">
+            <div class="exp-overview-list-entry container">
+                <span class="exp-overview-title">{{ article.title }}</span>
+                <span class="exp-overview-date">{{ article.date }}</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+<div class="exp-overview-part">
+    <a class="exp-title-line" href="{{ uri_for('experience', category='course') }}">
+        <div class="exp-title-head course"></div>
+        <div class="exp-title">Course Projects</div>
+        <div class="exp-title-bar"></div>
+    </a>
+    <div class="exp-overview-list">
+        {% for article in course %}
+        <a class="exp-overview-list-entry" href="{{ uri_for('record', record_id=article.id) }}">
+            <div class="exp-overview-list-entry container">
+                <span class="exp-overview-title">{{ article.title }}</span>
+                <span class="exp-overview-date">{{ article.date }}</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+<div class="exp-overview-part">
+    <a class="exp-title-line" href="{{ uri_for('experience', category='others') }}">
+        <div class="exp-title-head others"></div>
+        <div class="exp-title">Others</div>
+        <div class="exp-title-bar"></div>
+    </a>
+    <div class="exp-overview-list">
+        {% for article in others %}
+        <a class="exp-overview-list-entry" href="{{ uri_for('record', record_id=article.id) }}">
+            <div class="exp-overview-list-entry container">
+                <span class="exp-overview-title">{{ article.title }}</span>
+                <span class="exp-overview-date">{{ article.date }}</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

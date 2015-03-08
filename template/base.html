@@ -5,6 +5,7 @@
         <title>Sword Master!</title>
         <link href="/static/base.css" rel="stylesheet" type="text/css">
         <script src="/static/jquery.min.js" language="JavaScript" type="text/javascript" ></script>
+        <script src="/static/jquery.dotdotdot.min.js" type="text/javascript"></script>
         <script src="/static/base.js" language="JavaScript" type="text/javascript"></script>
     {% endblock %}
     </head>
@@ -25,8 +26,8 @@
             {% endif %}
             <a class="navigation {% block home_active %}{% endblock %}" href="{{ uri_for('home') }}">Home</a>
             <a class="navigation {% block about_active %}{% endblock %}" href="{{ uri_for('about') }}">About</a>
-            <a class="navigation {% block projects_active %}{% endblock %}" href="{{ uri_for('projects') }}">Projects</a>
-            <a class="navigation {% block ideas_active %}{% endblock %}" href="{{ uri_for('ideas') }}">Ideas</a>
+            <a class="navigation {% block experiences_active %}{% endblock %}" href="{{ uri_for('experiences') }}">Journey</a>
+            <a class="navigation {% block projects_active %}{% endblock %}" href="{{ uri_for('projects') }}">Ideas</a>
             {% endblock %}
         </div>
 
@@ -35,7 +36,7 @@
                 {% block side_bar %}
                 {% endblock %}
             </div>
-            <div id="main-body">
+            <div id="main-body" class="container">
                 {% block main_body %}
                 {% endblock %}
             </div>

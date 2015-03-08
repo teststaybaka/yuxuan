@@ -21,6 +21,9 @@ $(document).ready(function() {
 
     $('form').on('click', 'div.remove-image', function() {
         var safe_url = $(this).siblings('input.safe-url').val();
+        $(this).parent().remove();
+        if (!safe_url) return;
+
         console.log(safe_url)
         $.ajax({
             type: 'POST',
@@ -35,7 +38,7 @@ $(document).ready(function() {
                 pop_ajax_message('Error', 'error');
             }
         });
-        $(this).parent().remove();
+        
     });
 
     $('#add-more').click(function() {
@@ -65,7 +68,7 @@ $(document).ready(function() {
                         contentType: false,
                         processData: false,
                         success: function(result) {
-                            console.log(result)
+                            // console.log(result)
                             var url = result.url;
                             var safe_url = result.safe_url;
                             input_file.siblings('label.image-url').text(url);

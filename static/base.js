@@ -1,3 +1,9 @@
+function numberWithCommas(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+}
+
 function pop_ajax_message(content, type) {
      $('#ajax-message-box').append('<div class="ajax-message '+type+'"> \
             <div class="ajax-icon '+type+'"></div> \
@@ -30,10 +36,19 @@ $(document).ready(function() {
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.status);
                 console.log(thrownError);
-                pop_ajax_message('Network error', 'error');
+                pop_ajax_message('Submit error.', 'error');
                 $('input.button').prop('disabled', false);
             }
         });
         return false;
+    });
+
+    $('div.preview-content').each(function() {
+        $(this).find('img').remove();
+    });
+    $('div.preview-content').dotdotdot();
+
+    $('span.comments-num').each(function() {
+        $(this).text(numberWithCommas($(this).text()) );
     });
 });

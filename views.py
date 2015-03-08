@@ -134,7 +134,7 @@ class MultiPartForm(object):
         flattened.append('--' + self.boundary + '--')
         flattened.append('')
         return '\r\n'.join(flattened)
-        
+
 class Home(BaseHandler):
     def get(self):
         self.render('home')
@@ -147,9 +147,96 @@ class Projects(BaseHandler):
     def get(self):
         self.render('projects')
 
-class Ideas(BaseHandler):
+class DanTube(BaseHandler):
     def get(self):
-        self.render('ideas')
+        self.render('dantube')
+        
+class ActionGame(BaseHandler):
+    def get(self):
+        self.render('action_game')
+
+class Experiences(BaseHandler):
+    def get(self):
+        context = {}
+        for i in range(0, len(Categories)):
+            category = Categories[i]
+            articles = Article.query(Article.category==category).order(-Article.date).fetch(limit=10)
+            context[category] = []
+            for j in range(0, len(articles)):
+                article = articles[j]
+                info = {
+                    'title': article.title,
+                    'date': article.date.strftime("%Y-%m-%d"),
+                    'id': article.key.id(),
+                }
+                context[category].append(info)
+
+        self.render('experiences', context)
+
+class PerExperience(BaseHandler):
+    def get(self, category):
+        page_size = 10
+        try:
+            page = int(self.request.get('page'))
+        except Exception, e:
+            page = 1
+
+        articles = Article.query(Article.category==category).order(-Article.date).fetch(offset=(page-1)*page_size, limit=page_size)
+        context = {category:'active', 'articles':[]}
+        for article in articles:
+            info = {
+                'title': article.title,
+                'content': article.content,
+                'date': article.date.strftime("%Y-%m-%d"),
+                'id': article.key.id(),
+            }
+            if len(article.images) > 0:
+                info['image'] = images.get_serving_url(article.images[0])
+            context['articles'].append(info)
+        self.render('per_experience', context)
+
+class Record(BaseHandler):
+    def get(self, record_id):
+        article = Article.get_by_id(int(record_id))
+        context = {article.category: 'active'}
+        info = {
+            'title': article.title,
+            'content': article.content,
+            'date': article.date.strftime("%Y-%m-%d"),
+            'category': article.category,
+            'id': article.key.id(),
+        }
+        context['article'] = info
+
+        articles = Article.query(Article.category==article.category).order(-Article.date).fetch()
+        idx = articles.index(article)
+        if idx > 0:
+            temp = articles[idx-1]
+            info = {
+                'title': temp.title,
+                'id': temp.key.id()
+            }
+            context['next'] = info
+        if idx < len(articles) - 1:
+            temp = articles[idx+1]
+            info = {
+                'title': temp.title,
+                'id': temp.key.id()
+            }
+            context['previous'] = info
+
+        context['comments'] = []
+        comments = Comment.query(Comment.belonged==article.key).order(-Comment.date).fetch()
+        for i in range(0, len(comments)):
+            comment = comments[i]
+            info = {
+                'name': comment.nickname,
+                'date': comment.date.strftime("%Y-%m-%d %H:%M"),
+                'content': comment.content,
+            }
+            context['comments'].append(info)
+            
+        self.render('record', context)
 
 class Contact(BaseHandler):
     def get(self):
@@ -174,6 +261,28 @@ class SendEmail(BaseHandler):
             message.body = 'An email send from '+email+'.\n\n'+ content
             message.send()
 
-            self.notify('Thank you. I\'ve recieved your email :P', 'success')
+            self.notify('Thank you. I\'ve recieved your email :)', 'success')
+        except Exception, e:
+            self.notify(str(e), 'error')
+
+class CommentPost(BaseHandler):
+    def post(self, record_id):
+        try:
+            article = Article.get_by_id(int(record_id))
+            name = self.request.get('name').strip()
+            email = self.request.get('email').strip()
+            content = self.request.get('content').strip()
+
+            message = mail.EmailMessage()
+            message.sender = 'yuxuanalan@appspot.gserviceaccount.com'
+            message.to = 'teststaybaka@gmail.com'
+            message.subject = name+' posted a comment on "'+article.title+'"'
+            message.body = content
+            message.send()
+
+            comment = Comment(belonged = article.key, email = email, nickname = name, content = content)
+            comment.put()
+
+            self.notify('Thank you for your comment :)', 'success')
         except Exception, e:
             self.notify(str(e), 'error')

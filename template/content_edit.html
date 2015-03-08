@@ -9,6 +9,8 @@
     </head>
     <body>
         <form id="content-form" action="{{ uri_for('content_edit') }}" method="POST">
+            <input type="text" name="title" id="title">
+            <input type="date" name="date" id="date">
             <textarea name="content" id="editor"></textarea>
             <select name="category">
                 <option value="dantube">DanTube</option>

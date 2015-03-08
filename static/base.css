@@ -17,6 +17,10 @@ a {
     color: rgb(100,100,100);
 }
 
+a.black-link:hover {
+    color: rgb(0,140,255);
+}
+
 a.blue-link {
     color: rgb(0,140,255);
 }
@@ -124,7 +128,7 @@ a.navigation.active {
     text-shadow: 0 0 0;
 }
 
-div.container:after {
+.container:after {
     clear: both;
     display: table;
     content: "";
@@ -133,7 +137,7 @@ div.container:after {
 #side-bar {
     display: inline-block;
     margin-left: 22px;
-    margin-right: 50px;
+    margin-right: 40px;
     margin-top: 30px;
     width: 150px;
     float: left;
@@ -227,7 +231,7 @@ div.ajax-content {
 }
 
 .catch-button {
-    border-radius: 5px;
+    border-radius: 20px;
     /*border: 1px solid rgb(200,200,200);*/
     background: #0097fc;
     background-image: -webkit-linear-gradient(top, #0097fc, #007bc7);

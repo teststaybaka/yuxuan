@@ -4,6 +4,7 @@ class UploadRemove(BaseHandler):
     def post(self):
         safe_url = self.request.get('safe_url')
         file_key = blobstore.BlobKey(safe_url)
+        images.delete_serving_url(file_key)
         blobstore.BlobInfo(file_key).delete()
         self.response.out.write('success')
 
@@ -34,15 +35,19 @@ class Edit(BaseHandler):
         self.render('content_edit')
 
     def post(self):
+        title = self.request.get('title')
+        date = self.request.get('date')
+        date = datetime.datetime.strptime(date, "%Y-%m-%d")
         content = self.request.get('content')
         category = self.request.get('category')
         images = self.request.POST.getall('images[]')
-        logging.info(content+" "+category)
+        logging.info(type(date))
+        
         image_keys = []
         for i in range(0, len(images)):
             file_key = blobstore.BlobKey(images[i])
             image_keys.append(file_key)
 
-        article = Article(content=content, images=image_keys, category=category)
+        article = Article(title=title, content=content, images=image_keys, category=category, date=date)
         article.put()
         self.notify('Submit successfully.', 'success')
