@@ -1,0 +1,36 @@
+{% extends "template/base.html" %}
+{% block head %}
+{{ super() }}
+<link href="/static/ideas.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block ideas_active %}
+active
+{% endblock %}
+
+{% block side_bar %}
+
+{% endblock %}
+
+{% block main_body %}
+<div class="paragraph container">
+    <div class="paragraph-img"><img src="/static/ideas-icon.png"></div>
+    <h3>Do you have ideas?</h3>
+    <p>Here writes ideas that came up in my mind. They were inspired by what I've seen, heard and thought. Some of them are practicle. Some of them are just ideas. If you are interested in any of them or you want to discuss about it or you think it's ridiculous, feel free to <a class="blue-link" href="{{ uri_for('contact') }}">talk to me</a>.</p>
+</div>
+<div class="paragraph container">
+    <div class="paragraph-img"><img src="/static/danmaku-video.jpg"><div class="paragraph-text">Screen shot from http://www.nicovideo.jp/</div></div>
+    <h3>A Danmaku video website</h3>
+    <p>What is <i>Danmaku</i>? It means comments that can fly across the screen while you are watching videos. As far as I know, it's originated in Japan. The most popular Dankau video website in Japan is <a class="blue-link" target="_blank" href="http://www.nicovideo.jp/"><i>Niconico</i></a>, which is launched in 2006. Several video websites in China followed up, such as <a class="blue-link" target="_blank" href="http://www.acfun.tv/"><i>AcFun</i></a>, <a class="blue-link" target="_blank" href="http://www.bilibili.com/"><i>Bilibili</i></a>. Danmaku became more and more popular that almost every video wbsite in China implements this core function. What surprised me is that after so many years, <i>YouTube</i> never tried to incorporate Danmaku function. Since I'm not a <i>YouTube</i> developer, I'm not able to implement this function on it. Then here comes the idea: Why not create an English version of <i>Niconico</i>? You may say that <i>Niconico</i> has English version. To be honest, the UI design of <i>Niconico</i> is not that friendly. Moreover, the Danmaku function will be implemented in HTML5 instead of Flash Player. As what <i>Niconico</i> did before, I'm going to use <i>YouTube</i> as a video source. Now, this idea is launched as a project called <a target="_blank" href="https://dan-tube.appspot.com" class="blue-link"><i>DanTube</i></a> (the combination of <i>Danmaku</i> and <i>YouTube</i>). <a class="blue-link" href="{{ uri_for('experience', category='dantube') }}">Check out its progress here</a>. I'm now building the website from scratch with Google App Engine and webapp2. All basic functions are being implemented and more features will be added in the future.</p>
+</div>
+<div class="paragraph container">
+    <div class="paragraph-img"><img src="/static/video-purchase.jpg"><div class="paragraph-text">Screen shot from https://vimeo.com/</div></div>
+    <h3>Online movies, series and anime purchase</h3>
+    <p>This idea is not thoroughly investigated. What I'm thinking is to add more features to <a target="_blank" href="https://dan-tube.appspot.com" class="blue-link"><i>DanTube</i></a>. Visitors can purchase/sell videos, like movies, online. Two things make my idea different from the other video purchase/selling site: 1. Even movies are treated as usual videos with danmaku and comments once purchased; 2. Price is related with resolution. You may not understand what does the second thing mean. It's not saying that if your video has low resolution, you can't sell it for a high price. It means that your video will be sold with different prices with respect to different resolutions. Any customers who wants to purchase your video need to choose in which resolution he would like to watch. Why would one hope to watch a low resolution version? Chances are he may think that the video he is going to watch doesn't deserve its price, while he just want to have a try or kill time. You can think of other possible user stories but I'm sure it will eventually benefit all video creators.</p>
+</div>
+<div class="paragraph container">
+    <div class="paragraph-img"><img src="/static/youmu-game.jpg"><div class="paragraph-text">Screen shot of Youmu Blade Dance</div></div>
+    <h3>Action game of Touhou Project</h3>
+    <p>I, as a fan of action games, especially <a target="_blank" href="http://en.wikipedia.org/wiki/Devil_May_Cry_3:_Dante%27s_Awakening" class="blue-link"><i>DMC3</i></a> and <a target="_blank" href="http://en.wikipedia.org/wiki/Devil_May_Cry_4" class="blue-link"><i>DMC4</i></a>, always hope to create my own game some day. You won't make any difference, if you just hope. So I decided to start developing it in June, 2014. So many techinque problems lie in my way, modeling, texture, motion and lots of design tasks but I won't be daunted. The very fisrt problem is what the story is of the game and what characters look like. After some consideration, I found that <a target="_blank" class="blue-link" href="http://en.wikipedia.org/wiki/Touhou_Project"><i>Touhou Project</i></a> is a good start. Its creator, ZUN, supports second creation and it's widely known over the world. One of its characters, Youmu who fights with two swords is suitable for action game. Therefore I decided to name the game as <a href="{{ uri_for('experience', category='youmu_blade_dance') }}" class="blue-link"><i>Youmu Blade Dance</i></a>. It's developed with Maya and Unity3D. Although I'm saything that I'm developing a game, it's actually learning, studying and developing at the same time. I'm just a beginner of game making, so the progress is quite slow. It's hard to say how much I've completed in the past several months but I did learn a lot.</p>
+</div>
+{% endblock %}

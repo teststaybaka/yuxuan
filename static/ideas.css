@@ -1,0 +1,39 @@
+#side-bar {
+    display: none;
+}
+
+#main-body {
+    padding-bottom: 30px;
+}
+
+h3 {
+    color: rgb(100,100,100);
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    color: rgb(255,113,103);
+}
+
+p {
+    color: rgb(100,100,100);
+}
+
+img {
+    max-width: 400px;
+    height: auto;
+    display: block;
+}
+
+div.paragraph-text {
+    margin-top: 10px;
+    text-align: center;
+    color: rgb(150,150,150);
+}
+
+div.paragraph:nth-child(odd) div.paragraph-img {
+    float: left;
+    margin-right: 20px;
+}
+
+div.paragraph:nth-child(even) div.paragraph-img {
+    float: right;
+    margin-left: 20px;
+}

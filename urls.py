@@ -11,9 +11,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route(r'/send_email', views.SendEmail, name='send_email'),
     webapp2.Route(r'/hire_me', views.HireMe, name='hire_me'),
     
-    webapp2.Route(r'/ideas', views.Projects, name='projects'),
-    webapp2.Route(r'/ideas/dantube', views.DanTube, name='dantube'),
-    webapp2.Route(r'/ideas/youmu-blade-dance', views.ActionGame, name='action_game'),
+    webapp2.Route(r'/ideas', views.Ideas, name='ideas'),
 
     webapp2.Route(r'/journey', views.Experiences, name='experiences'),
     webapp2.Route(r'/journey/<category:.+>', views.PerExperience, name='experience'),

@@ -143,17 +143,9 @@ class About(BaseHandler):
     def get(self):
         self.render('about')
 
-class Projects(BaseHandler):
+class Ideas(BaseHandler):
     def get(self):
-        self.render('projects')
-
-class DanTube(BaseHandler):
-    def get(self):
-        self.render('dantube')
-        
-class ActionGame(BaseHandler):
-    def get(self):
-        self.render('action_game')
+        self.render('ideas')
 
 class Experiences(BaseHandler):
     def get(self):
