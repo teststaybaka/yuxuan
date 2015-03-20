@@ -3,7 +3,7 @@ $(document).ready(function() {
     var page = 1;
     var isLoading = false;
     $(window).scroll(function() {
-        if(($(window).scrollTop() > $(document).height() - $(window).height() - 100) && !isLoading) {
+        if(($(window).scrollTop() >= $(document).height() - $(window).height()) && !isLoading) {
             isLoading = true;
             $('#main-body').append('<div class="preview-article loading"></div>');
             $.ajax({

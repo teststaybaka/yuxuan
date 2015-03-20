@@ -11,29 +11,33 @@ active
 {% block side_bar %}
 <a href="{{ uri_for('about') }}" class="side {% block side_about_active %}active{% endblock %}">About</a>
 <a href="{{ uri_for('contact') }}" class="side {% block side_contact_active %}{% endblock %}">Contact</a>
-<a href="{{ uri_for('hire_me') }}" class="side {% block side_hire_active %}{% endblock %}">Hire Me</a>
+<!-- <a href="{{ uri_for('hire_me') }}" class="side {% block side_hire_active %}{% endblock %}">Hire Me</a> -->
 {% endblock %}
 
 {% block main_body %}
+<img class="portrait" src="/static/portrait.png">
 <h2>
     Dreams drive me forward
 </h2>
 <p>
-    Hello there, I'm Yuxna Xie or Alan. Welcome to my website. <!-- You won't feel boring here. -->
+    Hello there, I'm Yuxna Xie or Alan. Welcome!
 </p>
 <p>
-    First let me introduce myself. I'm a student graduated from Tsinghua University and now studying at Columbia University in the City of New York, pursuing master degree.  Majored in computer science, I've learned and coded a lot.
+    I'm a student graduated from Tsinghua University and now studying at Columbia University in the City of New York, pursuing master degree.  Majored in computer science, I've learned and coded a lot. Most of my experiences are recorde in <a href="{{ uri_for('experiences') }}" class="blue-link">my journey</a>. I'm looking for a job now or maybe trying to start my own business?
 </p>
 <p>
-   During these studying days, my mind is being filled with tons of ideas. You can find some of them in page <a href="{{ uri_for('ideas') }}"><i>ideas</i></a> page.
+   During these studying days, my mind is filled with a lot of ideas. In the old days, I thought any of them requires a large team so I had to wait until I was able to put together some people. But now, I believe that even by myself I am able to complete them! You can find some of them in <a href="{{ uri_for('ideas') }}" class="blue-link">my ideas</a>.
 </p>
 <p>
-    The very first idea is a danmaku video website, which makes it different from the other video sites is <i><b>Danmaku</b></i>. Here, <i>danmaku</i> means comments, but instead of leaving them below the video, those comments are flying across the screen while playing. You may think they will distract you from enjoying the video. I had the same thoughts as you before, but after several tries, I'm incredible attracted by this new type of video watching.
+    One of my ideas is a danmaku video website, which makes it different from the other video sites is <i><b>Danmaku</b></i>. Here, <i>danmaku</i> means comments, but instead of leaving them below the video, those comments are flying across the screen while playing. You may think they will distract you from enjoying the video. I had the same thoughts as you before, but after several tries, I'm incredible attracted by this new type of video watching.
 </p>
 <p>
     The website is on building now.<a class="catch-button" target="_blank" href="https://dan-tube.appspot.com">Go to it → dan-tube.appspot.com</a>
 </p>
 <p>
-    Another idea is to make an action game. I love games, especially action games. However, most techniques involved are not taught in CS! I have to teach myself!
+    Another one is to make an action game. I love games, especially action games. However, most techniques involved are not taught in CS! I have to teach myself! And during learning those new stuff, I understood how difficult it is and why there is always a team when develop a game. Since I don't have any fund, it's not feasible to hire some guys working with me. Therefore, the only way I can think of to find a team is that after making some progress, create a PV (promotion video) to attract other game lovers. By the way, aren't most of the games too cheap? 
+</p>
+<p>
+    I know this would be the most challenging project and maybe I'm too ambitious. But I'm solving challenges everyday! I don't mind if there is one more.
 </p>
 {% endblock %}

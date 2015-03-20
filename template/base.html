@@ -10,35 +10,43 @@
     {% endblock %}
     </head>
     <body>
-        <div id="header">
-            {% block header %}
-            <div id="name-logo">
-                <a href="">
-                    <img src="/static/logo.png">
-                    <span>Yuxuan Xie (Alan)</span>
-                </a>
+        <div class="body-background">
+            <div id="header">
+                <div class="social-buttons-box">
+                    <a class="social-button facebook" href="https://www.facebook.com/teststaybaka" target="_blank"></a>
+                    <a class="social-button twitter" href="https://twitter.com/teststaybaka" target="_blank"></a>
+                    <a class="social-button google" href="https://plus.google.com/113968793896885544682" target="_blank"></a>
+                </div>
+                {% block header %}
+                <div id="name-logo">
+                    <a href="/">
+                        <img src="/static/logo.png">
+                        <br>
+                        <span>Yuxuan Xie (Alan)</span>
+                    </a>
+                </div>
+                {% if need_search %}
+                <div id="site-search">
+                    <input class="text" id="search-field" type="text"/>
+                    <button class="search" id="search-button">Search</button>
+                </div>
+                {% endif %}
+                <a class="navigation {% block home_active %}{% endblock %}" href="{{ uri_for('home') }}">Home</a>
+                <a class="navigation {% block about_active %}{% endblock %}" href="{{ uri_for('about') }}">About</a>
+                <a class="navigation {% block experiences_active %}{% endblock %}" href="{{ uri_for('experiences') }}">Journey</a>
+                <a class="navigation {% block ideas_active %}{% endblock %}" href="{{ uri_for('ideas') }}">Ideas</a>
+                {% endblock %}
             </div>
-            {% if need_search %}
-            <div id="site-search">
-                <input class="text" id="search-field" type="text"/>
-                <button class="search" id="search-button">Search</button>
-            </div>
-            {% endif %}
-            <a class="navigation {% block home_active %}{% endblock %}" href="{{ uri_for('home') }}">Home</a>
-            <a class="navigation {% block about_active %}{% endblock %}" href="{{ uri_for('about') }}">About</a>
-            <a class="navigation {% block experiences_active %}{% endblock %}" href="{{ uri_for('experiences') }}">Journey</a>
-            <a class="navigation {% block ideas_active %}{% endblock %}" href="{{ uri_for('ideas') }}">Ideas</a>
-            {% endblock %}
-        </div>
 
-        <div id="body" class="container">
-            <div id="side-bar">
-                {% block side_bar %}
-                {% endblock %}
-            </div>
-            <div id="main-body" class="container">
-                {% block main_body %}
-                {% endblock %}
+            <div id="body" class="container">
+                <div id="side-bar">
+                    {% block side_bar %}
+                    {% endblock %}
+                </div>
+                <div id="main-body" class="container">
+                    {% block main_body %}
+                    {% endblock %}
+                </div>
             </div>
         </div>
 

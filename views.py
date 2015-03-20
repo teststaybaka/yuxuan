@@ -179,8 +179,9 @@ class PerExperience(BaseHandler):
                 'date': article.date.strftime("%Y-%m-%d"),
                 'id': article.key.id(),
             }
-            if len(article.images) > 0:
-                info['image'] = images.get_serving_url(article.images[0], size=1000)
+            res = re.search(r'<img.*?src="(.*?)".*?>', article.content)
+            if res:
+                info['image'] = res.group(1)
             context['articles'].append(info)
         self.render('per_experience', context)
 
@@ -203,8 +204,9 @@ class PerExperience(BaseHandler):
                 'date': article.date.strftime("%Y-%m-%d"),
                 'id': article.key.id(),
             }
-            if len(article.images) > 0:
-                info['image'] = images.get_serving_url(article.images[0], size=1000)
+            res = re.search(r'<img.*?src="(.*?)".*?>', article.content)
+            if res:
+                info['image'] = res.group(1)
             context['articles'].append(info)
 
         self.response.out.write(json.dumps(context))
@@ -267,6 +269,9 @@ class SendEmail(BaseHandler):
             email = self.request.get('email').strip()
             subject = self.request.get('subject').strip()
             content = self.request.get('content').strip()
+
+            if (not name) or (not email) or (not subject) or (not content):
+                self.notify('Field can not be empty.', 'error')
 
             message = mail.EmailMessage()
             message.sender = 'yuxuanalan@appspot.gserviceaccount.com'

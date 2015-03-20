@@ -12,7 +12,7 @@ Categories = ['dantube', 'youmu_blade_dance', 'course', 'others']
 class Article(ndb.Model):
     title = ndb.StringProperty()
     content = ndb.TextProperty()
-    images = ndb.BlobKeyProperty(repeated=True)
+    # images = ndb.BlobKeyProperty(repeated=True)
     category = ndb.StringProperty(choices=Categories)
     date = ndb.DateTimeProperty()
 

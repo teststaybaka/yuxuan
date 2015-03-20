@@ -49,3 +49,11 @@ input.button {
     margin-left: 430px;
     font-size: 14px;
 }
+
+.portrait {
+    width: 128px;
+    height: 128px;
+    float: right;
+    margin-top: 20px;
+    margin-left: 10px;
+}
