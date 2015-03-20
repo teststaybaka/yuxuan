@@ -18,6 +18,7 @@ function pop_ajax_message(content, type) {
 
 $(document).ready(function() {
     CKEDITOR.replace( 'editor' );
+    CKEDITOR.instances['editor'].setData($('#original-content').html());
 
     $('form').on('click', 'div.remove-image', function() {
         var safe_url = $(this).siblings('input.safe-url').val();

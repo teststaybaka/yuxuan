@@ -11,6 +11,7 @@ import mimetools
 import mimetypes
 import urllib
 import urllib2
+import re
 from webapp2_extras import sessions
 from jinja2 import Undefined
 from google.appengine.ext import ndb
@@ -167,25 +168,46 @@ class Experiences(BaseHandler):
 
 class PerExperience(BaseHandler):
     def get(self, category):
-        page_size = 10
-        try:
-            page = int(self.request.get('page'))
-        except Exception, e:
-            page = 1
+        page_size = 5
 
-        articles = Article.query(Article.category==category).order(-Article.date).fetch(offset=(page-1)*page_size, limit=page_size)
+        articles = Article.query(Article.category==category).order(-Article.date).fetch(limit=page_size)
         context = {category:'active', 'articles':[]}
         for article in articles:
             info = {
                 'title': article.title,
-                'content': article.content,
+                'content': re.sub(r'<img.*?>', '', article.content),
                 'date': article.date.strftime("%Y-%m-%d"),
                 'id': article.key.id(),
             }
             if len(article.images) > 0:
-                info['image'] = images.get_serving_url(article.images[0])
+                info['image'] = images.get_serving_url(article.images[0], size=1000)
             context['articles'].append(info)
         self.render('per_experience', context)
+
+    def post(self, category):
+        self.response.headers['Content-Type'] = 'application/json'
+        page_size = 5
+        try:
+            page = int(self.request.get('page'))
+            if page < 1:
+                raise ValueError('Negative')
+        except Exception, e:
+            page = 1
+
+        articles = Article.query(Article.category==category).order(-Article.date).fetch(offset=(page-1)*page_size, limit=page_size)
+        context = {'error': False, 'articles':[]}
+        for article in articles:
+            info = {
+                'title': article.title,
+                'content': re.sub(r'<img.*?>', '', article.content),
+                'date': article.date.strftime("%Y-%m-%d"),
+                'id': article.key.id(),
+            }
+            if len(article.images) > 0:
+                info['image'] = images.get_serving_url(article.images[0], size=1000)
+            context['articles'].append(info)
+
+        self.response.out.write(json.dumps(context))
 
 class Record(BaseHandler):
     def get(self, record_id):
@@ -200,17 +222,17 @@ class Record(BaseHandler):
         }
         context['article'] = info
 
-        articles = Article.query(Article.category==article.category).order(-Article.date).fetch()
-        idx = articles.index(article)
+        articles = Article.query(Article.category==article.category).order(-Article.date).fetch(keys_only=True)
+        idx = articles.index(article.key)
         if idx > 0:
-            temp = articles[idx-1]
+            temp = articles[idx-1].get()
             info = {
                 'title': temp.title,
                 'id': temp.key.id()
             }
             context['next'] = info
         if idx < len(articles) - 1:
-            temp = articles[idx+1]
+            temp = articles[idx+1].get()
             info = {
                 'title': temp.title,
                 'id': temp.key.id()

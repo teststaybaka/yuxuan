@@ -1,6 +1,9 @@
 {% extends "template/experiences.html" %}
 {% block head %}
 {{ super() }}
+{% block scroll_load %}
+<script src="/static/experience.js" language="JavaScript" type="text/javascript"></script>
+{% endblock %}
 {% endblock %}
 
 {% block experiences_active %}

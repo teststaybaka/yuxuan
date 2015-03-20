@@ -27,12 +27,24 @@ class Upload(BaseHandler, blobstore_handlers.BlobstoreUploadHandler):
         uploaded_file = upload[0]
         self.response.out.write(json.dumps({
             'safe_url': str(uploaded_file.key()), 
-            'url': images.get_serving_url(uploaded_file.key())
+            'url': images.get_serving_url(uploaded_file.key(), size=1000)
         }))
 
 class Edit(BaseHandler):
     def get(self):
-        self.render('content_edit')
+        try:
+            category = self.request.get('category')
+            index = int(self.request.get('index'))
+            article_key = Article.query(Article.category==category).order(-Article.date).fetch(keys_only=True, offset=index-1, limit=1)
+            article = article_key[0].get()
+            context = {
+                'content': article.content,
+                'title': article.title,
+            }
+        except Exception, e:
+            context = {}
+
+        self.render('content_edit', context)
 
     def post(self):
         title = self.request.get('title')

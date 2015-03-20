@@ -1,13 +1,12 @@
 {% extends "template/per_experience.html" %}
-{% block head %}
-{{ super() }}
+{% block scroll_load %}
 {% endblock %}
 
 {% block main_body %}
 <div class="record-body">
-    <div class="record-title-line">
-        <div class="record-date">{{ article.date }}</div>
+    <div class="record-title-line container">
         <div class="record-title">{{ article.title }}</div>
+        <div class="record-date">{{ article.date }}</div>
     </div>
     <div class="record-content">{{ article.content }}</div>
 </div>
