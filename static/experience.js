@@ -2,15 +2,15 @@ $(document).ready(function() {
     var url = document.URL;
     var page = 1;
     var isLoading = false;
+    var isOver = false;
     $(window).scroll(function() {
-        if(($(window).scrollTop() >= $(document).height() - $(window).height()) && !isLoading) {
+        if(($(window).scrollTop() >= $(document).height() - $(window).height()) && !isLoading && !isOver) {
             isLoading = true;
             $('#main-body').append('<div class="preview-article loading"></div>');
             $.ajax({
                 type: "POST",
                 url: url+'?page='+(page+1),
                 success: function(result) {
-                    isLoading = false;
                     $('div.preview-article.loading').remove();
                     if(!result.error) {
                         for (var i = 0; i < result.articles.length; i++) {
@@ -30,12 +30,15 @@ $(document).ready(function() {
                             </div>'
                             $('#main-body').append(div);
                         }
-                        if (result.articles.length != 0) {
+                        if (result.articles.length == 0) {
+                            isOver = true;   
+                        } else {
                             page++;
                         }
                     } else {
                         pop_ajax_message(result.message, 'error');
                     }
+                    isLoading = false;
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     isLoading = false;

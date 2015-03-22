@@ -1,6 +1,6 @@
 #main-body {
     display: inline-block;
-    width: 750px;
+    width: 780px;
     float: left;
     margin-top: 20px;
 }
@@ -8,7 +8,7 @@
 div.exp-overview-part {
     float: left;
     display: inline-block;
-    width: 350px;
+    width: 365px;
     margin-right: 25px;
     height: 270px;
     margin-bottom: 10px;
@@ -89,12 +89,17 @@ span.exp-overview-title:before {
 span.exp-overview-title {
     float: left;
     margin-left: 12px;
+    max-width: 285px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 span.exp-overview-date {
     float: right;
     color: rgb(150,150,150);
     font-size: 14px;
+    margin-top: 2px;
 }
 
 a.exp-overview-list-entry:hover span.exp-overview-title {
@@ -171,6 +176,7 @@ a.preview-title {
 
 div.preview-image {
     max-width: 100%;
+    text-align: center;
 }
 
 img.preview-image {
@@ -359,4 +365,8 @@ input:focus, textarea:focus {
 input.button {
     padding: 3px;
     float: left;
+}
+
+.preview-title-line {
+    margin-bottom: 10px;
 }

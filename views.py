@@ -153,7 +153,7 @@ class Experiences(BaseHandler):
         context = {}
         for i in range(0, len(Categories)):
             category = Categories[i]
-            articles = Article.query(Article.category==category).order(-Article.date).fetch(limit=10)
+            articles = Article.query(Article.category==category).order(-Article.date).fetch(limit=9)
             context[category] = []
             for j in range(0, len(articles)):
                 article = articles[j]
@@ -195,7 +195,8 @@ class PerExperience(BaseHandler):
         except Exception, e:
             page = 1
 
-        articles = Article.query(Article.category==category).order(-Article.date).fetch(offset=(page-1)*page_size, limit=page_size)
+        article_keys = Article.query(Article.category==category).order(-Article.date).fetch(keys_only=True, offset=(page-1)*page_size, limit=page_size)
+        articles = ndb.get_multi(article_keys)
         context = {'error': False, 'articles':[]}
         for article in articles:
             info = {

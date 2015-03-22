@@ -10,15 +10,20 @@
     <body>
         <form id="content-form" action="{{ uri_for('content_edit') }}" method="POST">
             <input type="text" name="title" id="title" value="{{ title }}">
-            <input type="date" name="date" id="date">
+            <input type="date" name="date" id="date" value="{{ date }}">
             <textarea name="content" id="editor"></textarea>
             <select name="category">
-                <option value="dantube">DanTube</option>
+                {% for cat in Categories %}
+                <option value="{{ cat }}" {% if cat == category %}selected="selected"{% endif %}>{{ cat }}</option>
+                {% endfor %}
             </select>
             <div id="add-more-line">
                 <div id="add-more">Add more</div>
             </div>
             <input type="submit" value="submit" id="submit-button">
+            {% if id %}
+            <input type="text" name="id" value="{{ id }}" hidden>
+            {% endif %}
         </form>
         <div id="original-content" hidden>
             {{ content }}

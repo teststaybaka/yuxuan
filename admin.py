@@ -38,28 +38,45 @@ class Edit(BaseHandler):
             article_key = Article.query(Article.category==category).order(-Article.date).fetch(keys_only=True, offset=index-1, limit=1)
             article = article_key[0].get()
             context = {
-                'content': article.content,
                 'title': article.title,
+                'content': article.content,
+                'date': article.date.strftime("%Y-%m-%d"),
+                'category': article.category,
+                'id': article.key.id(),
             }
         except Exception, e:
             context = {}
 
+        context['Categories'] = Categories
+        logging.info(context)
         self.render('content_edit', context)
 
     def post(self):
+        try:
+            article_id = self.request.get('id')
+            article = Article.get_by_id(int(article_id))
+        except Exception, e:
+            article = None
+
         title = self.request.get('title')
         date = self.request.get('date')
         date = datetime.datetime.strptime(date, "%Y-%m-%d")
         content = self.request.get('content')
         category = self.request.get('category')
         # images = self.request.POST.getall('images[]')
-        logging.info(type(date))
         
         # image_keys = []
         # for i in range(0, len(images)):
         #     file_key = blobstore.BlobKey(images[i])
         #     image_keys.append(file_key)
 
-        article = Article(title=title, content=content, category=category, date=date)
+        if article is None:
+            article = Article(title=title, content=content, category=category, date=date)
+        else:
+            article.title = title
+            article.content = content
+            article.category = category
+            article.date = date
         article.put()
+
         self.notify('Submit successfully.', 'success')

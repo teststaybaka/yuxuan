@@ -304,3 +304,7 @@ div.ajax-content {
 .social-button.google {
     background-image: url("/static/google_plus_icon.png");
 }
+
+.social-button.linkedin {
+    background-image: url("/static/linked_in_icon.png");
+}

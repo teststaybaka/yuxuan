@@ -51,9 +51,10 @@ input.button {
 }
 
 .portrait {
-    width: 128px;
-    height: 128px;
+    width: 200px;
+    height: 200px;
     float: right;
     margin-top: 20px;
-    margin-left: 10px;
+    margin-bottom: 20px;
+    margin-left: 20px;
 }

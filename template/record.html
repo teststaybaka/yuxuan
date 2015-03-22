@@ -19,7 +19,7 @@
     {% endif %}
     <a class="black-link record-back" href="{{ uri_for('experience', category=article.category) }}">Back</a>
 </div>
-<div class="comments-num">Comments <span class="comments-num">{{ comments|length }}</span></div>
+<!-- <div class="comments-num">Comments <span class="comments-num">{{ comments|length }}</span></div>
 <div class="comment-block">
     {% if comments|length == 0 %}
     <div class="no-comment">Post your comment here.</div>
@@ -42,5 +42,5 @@
         <textarea name="content" placeholder="Comment" required></textarea>
         <input type="submit" class="button special" value="Post">
     </form>
-</div>
+</div> -->
 {% endblock %}
