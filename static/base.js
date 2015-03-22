@@ -51,4 +51,14 @@ $(document).ready(function() {
     $('span.comments-num').each(function() {
         $(this).text(numberWithCommas($(this).text()) );
     });
+
+    $('div.fb-comments').attr('data-href', window.location.href);
+
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1555186191413131&version=v2.2";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
 });

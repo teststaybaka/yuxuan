@@ -13,6 +13,7 @@
             <input type="date" name="date" id="date" value="{{ date }}">
             <textarea name="content" id="editor"></textarea>
             <select name="category">
+                <option disabled selected> -- select a category -- </option>
                 {% for cat in Categories %}
                 <option value="{{ cat }}" {% if cat == category %}selected="selected"{% endif %}>{{ cat }}</option>
                 {% endfor %}
