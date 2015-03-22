@@ -216,19 +216,19 @@ div.ajax-icon {
 }
 
 div.ajax-icon.success {
-    background-position: 0 -704px;
+    background-position: 0 -349px;
 }
 
 div.ajax-icon.info {
-    background-position: 0 -670px;
+    background-position: 0 -385px;
 }
 
 div.ajax-icon.warning {
-    background-position: 0 -739px;
+    background-position: 0 -312px;
 }
 
 div.ajax-icon.error {
-    background-position: 0 -636px;
+    background-position: 0 -278px;
 }
 
 div.ajax-content {
@@ -291,20 +291,21 @@ div.ajax-content {
     height: 35px;
     display: inline-block;
     margin-right: 7px;
+    background-image: url("/static/basic_icons.png");
 }
 
 .social-button.facebook {
-    background-image: url("/static/facebook_icon.png");
+    background-position: 0 0;
 }
 
 .social-button.twitter {
-    background-image: url("/static/twitter_icon.png");
+    background-position: 0 -105px;
 }
 
 .social-button.google {
-    background-image: url("/static/google_plus_icon.png");
+    background-position: 0 -35px;
 }
 
 .social-button.linkedin {
-    background-image: url("/static/linked_in_icon.png");
+    background-position: 0 -70px;
 }

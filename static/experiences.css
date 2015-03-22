@@ -26,23 +26,24 @@ div.exp-title-head {
     height: 32px;
     display: inline-block;
     vertical-align: middle;
-    background-color: white
+    background-color: white;
+    background-image: url("/static/basic_icons.png");
 }
 
 div.exp-title-head.tv {
-    background-image: url("/static/tv.png");
+    background-position: 0 -208px;
 }
 
 div.exp-title-head.sword {
-    background-image: url("/static/sword.png");
+    background-position: 0 -176px;
 }
 
 div.exp-title-head.course {
-    background-image: url("/static/course.png");
+    background-position: 0 -144px;
 }
 
 div.exp-title-head.others {
-    background-image: url("/static/others.png");
+    background-position: 0 -240px;
 }
 
 div.exp-title {
