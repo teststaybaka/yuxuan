@@ -3,7 +3,7 @@ import views, admin
 
 
 config = {}
-config['webapp2_extras.sessions'] = dict(secret_key='efrgdjcmzlworj79s0mgnvdoifds68dkxmc97jvdkmvzxp027yutcivbhugd479k')#, session_max_age=5)
+config['webapp2_extras.sessions'] = dict(secret_key='ef1gdjcm2lworj79s0mgnvdoifds68dkxmc97jvdkmvzxp027puboivbhuxd479k')#, session_max_age=5)
 application = webapp2.WSGIApplication([
     webapp2.Route(r'/', views.Home, name='home'),
     webapp2.Route(r'/about', views.About, name='about'),

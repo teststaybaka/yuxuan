@@ -379,3 +379,8 @@ input.button {
 .fb-comments {
     margin-bottom: 40px;
 }
+
+.fb-like {
+    float: left;
+    margin-left: 15px;
+}
