@@ -278,10 +278,10 @@ class SendEmail(BaseHandler):
             message.sender = 'yuxuanalan@appspot.gserviceaccount.com'
             message.to = 'teststaybaka@gmail.com'
             message.subject = subject
-            message.body = 'An email send from '+email+'.\n\n'+ content
+            message.body = 'An email send from '+name+' ('+email+').\n\n'+ content
             message.send()
 
-            self.notify('Thank you. I\'ve recieved your email :)', 'success')
+            self.notify('Thank you. I\'ve received your email :)', 'success')
         except Exception, e:
             self.notify(str(e), 'error')
 
