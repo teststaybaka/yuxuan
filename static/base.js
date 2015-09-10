@@ -61,4 +61,12 @@ $(document).ready(function() {
         js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1555186191413131&version=v2.3";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
+
+    $('.navigation-collapse').click(function(evt) {
+        $('.navigation-container').toggleClass('hide');
+    });
+
+    $('.side-collapse').click(function() {
+        $('#side-bar').toggleClass('hide');
+    });
 });

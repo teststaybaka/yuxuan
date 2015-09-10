@@ -1,17 +1,22 @@
 #main-body {
     display: inline-block;
-    width: 780px;
-    float: left;
+    width: 80%;
+    vertical-align: top;
     margin-top: 20px;
 }
 
-div.exp-overview-part {
-    float: left;
+.exp-overview-part {
+    font-size: 16px;
+    vertical-align: top;
     display: inline-block;
-    width: 365px;
-    margin-right: 25px;
+    width: 48.5%;
+    margin-right: 3%;
     height: 270px;
     margin-bottom: 10px;
+}
+
+.exp-overview-part:nth-child(odd) {
+    margin-right: 0;
 }
 
 a.exp-title-line {
@@ -90,7 +95,9 @@ span.exp-overview-title:before {
 span.exp-overview-title {
     float: left;
     margin-left: 12px;
-    max-width: 285px;
+    max-width: calc(100% - 66px - 12px);
+    max-width: -moz-calc(100% - 66px - 12px); /* Firefox */
+    max-width: -webkit-calc(100% - 66px - 12px); /* Chrome, Safari */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -216,6 +223,7 @@ div.record-title {
     vertical-align: text-bottom;
     float: left;
     margin-left: 20px;
+    margin-right: 15px;
 }
 
 div.record-title:before {
@@ -240,15 +248,23 @@ div.record-date {
     float: right;
 }
 
-div.record-body img {
+img {
     max-width: 100%;
-    height: auto;
-    width: auto;
+    max-height: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
 
 a.record-previous {
     float: left;
     display: block;
+	max-width: calc(50% - 25px);
+    max-width: -moz-calc(50% - 25px); /* Firefox */
+    max-width: -webkit-calc(50% - 25px); /* Chrome, Safari */
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 a.record-back {
@@ -262,6 +278,12 @@ a.record-back {
 a.record-next {
     float: right;
     display: block;
+	max-width: calc(50% - 25px);
+    max-width: -moz-calc(50% - 25px); /* Firefox */
+    max-width: -webkit-calc(50% - 25px); /* Chrome, Safari */
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 span.arrow-span {
@@ -372,15 +394,48 @@ input.button {
     margin-bottom: 10px;
 }
 
-.record-change-line {
-    margin: 30px 0;
+.record-content {
+    font-size: initial;
 }
 
-.fb-comments {
-    margin-bottom: 40px;
+.record-change-line {
+    margin: 30px 0;
+    font-size: initial;
 }
 
 .fb-like {
     float: left;
-    margin-left: 15px;
+}
+
+p iframe {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.page-title {
+    display: none;
+}
+
+@media screen and (max-width: 650px) {
+    .exp-overview-part {
+        display: block;
+        margin-right: 0;
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    #main-body {
+        display: block;
+        width: 100%;
+    }
+
+    .page-title {
+        display: block;
+        color: rgb(100,100,100);
+        margin: 20px 0;
+        font-size: 24px;
+    }
 }

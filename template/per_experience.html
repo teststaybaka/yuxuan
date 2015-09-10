@@ -6,10 +6,19 @@
 {% endblock %}
 {% endblock %}
 
-{% block experiences_active %}
-active
-{% endblock %}
+{% block experiences_active %}active{% endblock %}
 
+{% block collapse_title %}
+{% if dantube %}
+DanTube
+{% elif youmu_blade_dance %}
+Youmu Blade Dance
+{% elif course %}
+Course Projects
+{% elif others %}
+Others
+{% endif %}
+{% endblock %}
 {% block side_overview_active %}{% endblock %}
 {% block side_dantube_active %}{{ dantube }}{% endblock %}
 {% block side_action_game_active %}{{ youmu_blade_dance }}{% endblock %}
@@ -17,6 +26,7 @@ active
 {% block side_others_active %}{{ others }}{% endblock %}
 
 {% block main_body %}
+<h2 class="page-title">Journey</h2>
 {% for article in articles %}
 <div class="preview-article">
     <div class="time-circle"></div>

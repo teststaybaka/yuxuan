@@ -9,14 +9,18 @@ active
 {% endblock %}
 
 {% block side_bar %}
-<a href="{{ uri_for('experiences') }}" class="side {% block side_overview_active %}active{% endblock %}">Overview</a>
-<a href="{{ uri_for('experience', category='dantube') }}" class="side {% block side_dantube_active %}{% endblock %}">DanTube</a>
-<a href="{{ uri_for('experience', category='youmu_blade_dance') }}" class="side {% block side_action_game_active %}{% endblock %}">Youmu Blade Dance</a>
-<a href="{{ uri_for('experience', category='course') }}" class="side {% block side_course_active %}{% endblock %}">Course Projects</a>
-<a href="{{ uri_for('experience', category='others') }}" class="side {% block side_others_active %}{% endblock %}">Others</a>
+<div class="side-collapse">{% block collapse_title %}Overview{% endblock %}</div>
+<div class="side-container">
+    <a href="{{ uri_for('experiences') }}" class="side {% block side_overview_active %}active{% endblock %}">Overview</a>
+    <a href="{{ uri_for('experience', category='dantube') }}" class="side {% block side_dantube_active %}{% endblock %}">DanTube</a>
+    <a href="{{ uri_for('experience', category='youmu_blade_dance') }}" class="side {% block side_action_game_active %}{% endblock %}">Youmu Blade Dance</a>
+    <a href="{{ uri_for('experience', category='course') }}" class="side {% block side_course_active %}{% endblock %}">Course Projects</a>
+    <a href="{{ uri_for('experience', category='others') }}" class="side {% block side_others_active %}{% endblock %}">Others</a>
+</div>
 {% endblock %}
 
 {% block main_body %}
+<h2 class="page-title">Journey</h2>
 <div class="exp-overview-part">
     <a class="exp-title-line" href="{{ uri_for('experience', category='dantube') }}">
         <div class="exp-title-head tv"></div>

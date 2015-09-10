@@ -272,7 +272,7 @@ class SendEmail(BaseHandler):
             content = self.request.get('content').strip()
 
             if (not name) or (not email) or (not subject) or (not content):
-                self.notify('Field can not be empty.', 'error')
+                raise Exception('No fields can be empty.')
 
             message = mail.EmailMessage()
             message.sender = 'yuxuanalan@appspot.gserviceaccount.com'
@@ -281,7 +281,7 @@ class SendEmail(BaseHandler):
             message.body = 'An email send from '+name+' ('+email+').\n\n'+ content
             message.send()
 
-            self.notify('Thank you. I\'ve received your email :)', 'success')
+            self.notify('Thank you very much. I\'ve received your email :)', 'success')
         except Exception, e:
             self.notify(str(e), 'error')
 

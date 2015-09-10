@@ -1,22 +1,39 @@
 {% extends "template/per_experience.html" %}
 {% block scroll_load %}
+<script language="JavaScript" type="text/javascript">
+$(document).ready(function() {
+    $('div.fb-comments').attr('data-width', $('#main-body').width());
+    $('p iframe').width(Math.min($('#main-body').width(), 720));
+    $('p iframe').height(Math.min($('#main-body').width()/16*9, 405));
+    window.onresize = function() {
+        $('div.fb-comments iframe').width($('#main-body').width());
+        $('p iframe').width(Math.min($('#main-body').width(), 720));
+        $('p iframe').height(Math.min($('#main-body').width()/16*9, 405));
+    }
+});
+</script>
+<style type="text/css">
+@media screen and (max-width: 550px) {
+    #side-bar {
+        display: none;
+    }
+}
+</style>
 {% endblock %}
 
 {% block main_body %}
-<div class="record-body">
-    <div class="record-title-line container">
-        <div class="record-title">{{ article.title }}</div>
-        <div class="fb-like" data-href="" data-layout="button_count" data-action="like" data-share="true"></div>
-        <div class="record-date">{{ article.date }}</div>
-    </div>
-    <div class="record-content">{{ article.content }}</div>
+<div class="record-title-line container">
+    <div class="record-title">{{ article.title }}</div>
+    <div class="fb-like" data-href="" data-layout="button_count" data-action="like" data-share="true"></div>
+    <div class="record-date">{{ article.date }}</div>
 </div>
+<div class="record-content">{{ article.content }}</div>
 <div class="record-change-line container">
     {% if previous %}
-    <a class="black-link record-previous" href="{{ uri_for('record', record_id=previous.id) }}"><span class="arrow-span">&lt;&lt;</span> {{ previous.title }}</a>
+    <a class="black-link record-previous" href="{{ uri_for('record', record_id=previous.id) }}">{{ previous.title }}</a>
     {% endif %}
     {% if next %}
-    <a class="black-link record-next" href="{{ uri_for('record', record_id=next.id) }}">{{ next.title }} <span class="arrow-span">&gt;&gt;</span></a>
+    <a class="black-link record-next" href="{{ uri_for('record', record_id=next.id) }}">{{ next.title }}</a>
     {% endif %}
     <a class="black-link record-back" href="{{ uri_for('experience', category=article.category) }}">Back</a>
 </div>
@@ -44,5 +61,5 @@
         <input type="submit" class="button special" value="Post">
     </form>
 </div> -->
-<div class="fb-comments" data-href="" data-numposts="10" data-width="780" data-colorscheme="light" data-order-by="reverse_time"></div>
+<div class="fb-comments" data-href="" data-numposts="10" data-colorscheme="light" data-order-by="reverse_time"></div>
 {% endblock %}

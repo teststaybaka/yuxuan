@@ -9,21 +9,24 @@ active
 {% endblock %}
 
 {% block side_bar %}
-<a href="{{ uri_for('about') }}" class="side {% block side_about_active %}active{% endblock %}">About</a>
-<a href="{{ uri_for('contact') }}" class="side {% block side_contact_active %}{% endblock %}">Contact</a>
-<!-- <a href="{{ uri_for('hire_me') }}" class="side {% block side_hire_active %}{% endblock %}">Hire Me</a> -->
+<div class="side-collapse">{% block collapse_title %}About{% endblock %}</div>
+<div class="side-container">
+    <a href="{{ uri_for('about') }}" class="side {% block side_about_active %}active{% endblock %}">About</a>
+    <a href="{{ uri_for('contact') }}" class="side {% block side_contact_active %}{% endblock %}">Contact</a>
+    <!-- <a href="{{ uri_for('hire_me') }}" class="side {% block side_hire_active %}{% endblock %}">Hire Me</a> -->
+</div>
 {% endblock %}
 
 {% block main_body %}
-<img class="portrait" src="/static/portrait.png">
 <h2>
-    Keep moving!
+    A bit about me...
 </h2>
+<img class="portrait" src="/static/portrait.png">
 <p>
-    Hello there, I'm Yuxuan Xie or Alan. Welcome!
+    Hello, I'm Yuxuan Xie or Alan. Welcome!
 </p>
 <p>
-    I'm a student graduated from Tsinghua University and now studying at Columbia University in the City of New York, pursuing master degree.  Majored in computer science, I've learned and coded a lot. Some of my experiences are recorded in <a href="{{ uri_for('experiences') }}" class="blue-link">my journey</a>.
+    I'm a student graduated from Tsinghua University and now studying at Columbia University in the City of New York, pursuing master degree. Majored in computer science, I've learned and coded a lot. Some of my experiences are recorded in <a href="{{ uri_for('experiences') }}" class="blue-link">my journey</a>.
 </p>
 <p>
    During these studying days, my mind is filled with a lot of ideas. In the old days, I thought any of them requires a large team and I had to wait until I was able to put together some people. But now, I believe that even by myself I am able to complete them! You can find some of them in <a href="{{ uri_for('ideas') }}" class="blue-link">my ideas</a>.
@@ -32,8 +35,9 @@ active
     One of my ideas is a danmaku video website, which makes it different from the other video sites is <i><b>Danmaku</b></i>. Here, <i>danmaku</i> means comments, but instead of leaving them below the video, those comments are flying across the screen while playing.
 </p>
 <p>
-    The website is on building now.<a class="catch-button" target="_blank" href="https://dan-tube.appspot.com">Go to it → dan-tube.appspot.com</a>
+    The website is on building now.
 </p>
+<a class="catch-button" target="_blank" href="https://dan-tube.appspot.com">Go to it → dan-tube.appspot.com</a>
 <p>
     Another one is to make an action game. It's a warm-up project to let me learn some game developing techniques. Although a one-man team is hardly promising, I don't want to give up now.
 </p>

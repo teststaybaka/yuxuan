@@ -1,7 +1,9 @@
 #main-body {
+    margin-top: 10px;
     display: inline-block;
-    width: 750px;
-    float: left;
+    width: 80%;
+    vertical-align: top;
+    font-size: 16px;
 }
 
 h2 {
@@ -18,7 +20,10 @@ input, textarea {
     font-size: 14px;
     border: 1px solid rgb(200,200,200);
     box-shadow: inset 0px 1px 3px rgb(220,220,220);
-    width: 400px;
+    width: 60%;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;
 }
 
 input:focus, textarea:focus {
@@ -37,6 +42,11 @@ textarea {
 
 div.input-line {
     margin: 30px 0;
+    font-size: 0;
+}
+
+div.input-line label {
+    font-size: initial;
 }
 
 label {
@@ -46,7 +56,9 @@ label {
 }
 
 input.button {
-    margin-left: 425px;
+    margin-left: calc(60% + 10px);
+    margin-left: -moz-calc(60% + 10px); /* Firefox */
+    margin-left: -webkit-calc(60% + 10px); /* Chrome, Safari */
 }
 
 .portrait {
@@ -54,6 +66,65 @@ input.button {
     height: 200px;
     float: right;
     margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 20px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.catch-button {
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    /*border: 1px solid rgb(200,200,200);*/
+    background: #0097fc;
+    background-image: -webkit-linear-gradient(top, #0097fc, #007bc7);
+    background-image: -moz-linear-gradient(top, #0097fc, #007bc7);
+    background-image: -ms-linear-gradient(top, #0097fc, #007bc7);
+    background-image: -o-linear-gradient(top, #0097fc, #007bc7);
+    background-image: linear-gradient(to bottom, #0097fc, #007bc7);
+    color: white;
+    padding: 7px 10px;
+    font-family:arial,sans-serif;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.catch-button:hover {
+    /*border: 1px solid rgb(81,203,238);*/
+    background: #54bdff;
+    background-image: -webkit-linear-gradient(top, #54bdff, #008be8);
+    background-image: -moz-linear-gradient(top, #54bdff, #008be8);
+    background-image: -ms-linear-gradient(top, #54bdff, #008be8);
+    background-image: -o-linear-gradient(top, #54bdff, #008be8);
+    background-image: linear-gradient(to bottom, #54bdff, #008be8);
+    /*color: rgb(81,203,238);*/
+}
+
+/*.catch-button:active {
+    background-color: rgb(81,203,238);
+    color: rgb(255,255,255);
+}
+*/
+
+@media screen and (max-width: 550px) {
+    #main-body {
+        display: block;
+        width: 100%;
+    }
+
+    .portrait {
+        width: 150px;
+        height: 150px;
+    }
+
+    input, textarea {
+        width: calc(100% - 80px);
+        width: -moz-calc(100% - 80px); /* Firefox */
+        width: -webkit-calc(100% - 80px); /* Chrome, Safari */
+    }
+
+    input.button {
+        margin-left: calc(100% - 70px);
+        margin-left: -moz-calc(100% - 70px); /* Firefox */
+        margin-left: -webkit-calc(100% - 70px); /* Chrome, Safari */
+    }
 }

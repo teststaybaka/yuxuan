@@ -1,15 +1,15 @@
 $(document).ready(function() {
-    var url = document.URL;
     var page = 1;
     var isLoading = false;
     var isOver = false;
     $(window).scroll(function() {
-        if(($(window).scrollTop() >= $(document).height() - $(window).height()) && !isLoading && !isOver) {
+        if(($(window).scrollTop() >= $(document).height() - $(window).height() - 20) && !isLoading && !isOver) {
             isLoading = true;
             $('#main-body').append('<div class="preview-article loading"></div>');
             $.ajax({
                 type: "POST",
-                url: url+'?page='+(page+1),
+                url: document.location.href,
+                data: {page: page+1},
                 success: function(result) {
                     $('div.preview-article.loading').remove();
                     if(!result.error) {

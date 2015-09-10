@@ -3,11 +3,10 @@
 }
 
 #main-body {
-    padding-bottom: 30px;
+    font-size: initial;
 }
 
 h3 {
-    color: rgb(100,100,100);
     font-family: "Comic Sans MS", cursive, sans-serif;
     color: rgb(255,113,103);
 }
@@ -16,10 +15,11 @@ p {
     color: rgb(100,100,100);
 }
 
-img {
+div.paragraph-img img {
     max-width: 400px;
     height: auto;
     display: block;
+    margin-top: 20px;
 }
 
 div.paragraph-text {
@@ -30,10 +30,34 @@ div.paragraph-text {
 
 div.paragraph:nth-child(odd) div.paragraph-img {
     float: left;
-    margin-right: 20px;
+    margin-right: 10px;
 }
 
 div.paragraph:nth-child(even) div.paragraph-img {
     float: right;
-    margin-left: 20px;
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 550px) {
+    div.paragraph:nth-child(n) div.paragraph-img {
+        float: none;
+        margin: 0;
+    }
+
+    div.paragraph-img img {
+        width: 100%;
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #idea-paragraph-img {
+        float: left;
+        margin-right: 10px;
+        width: 35%;
+    }
+
+    #idea-img {
+        max-width: 100%;
+    }
 }
