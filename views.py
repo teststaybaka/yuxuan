@@ -166,6 +166,10 @@ class Experiences(BaseHandler):
 
 class PerExperience(BaseHandler):
     def get(self, category):
+        if category not in Categories:
+            self.redirect(self.uri_for('home'))
+            return
+
         page_size = 5
         articles, cursor, more = Article.query(Article.category==category).order(-Article.date).fetch_page(page_size, start_cursor=Cursor())
         context = {'Categories': Categories, 'Categories_map': Categories_map, 'cur_category': category, 'articles':[]}
@@ -184,6 +188,10 @@ class PerExperience(BaseHandler):
         self.render('per_experience', context)
 
     def post(self, category):
+        if category not in Categories:
+            self.redirect(self.notify('Invalid category', 'error'))
+            return
+
         self.response.headers['Content-Type'] = 'application/json'
         page_size = 5
         cursor = self.request.get('cursor')
@@ -211,11 +219,14 @@ class PerExperience(BaseHandler):
 
 class Record(BaseHandler):
     def get(self, category, record_index):
-        context = {'Categories': Categories, 'Categories_map': Categories_map, 'cur_category': category}
+        if category not in Categories:
+            self.redirect(self.uri_for('home'))
+            return
 
+        context = {'Categories': Categories, 'Categories_map': Categories_map, 'cur_category': category}
         article = Article.query(Article.category==category, Article.index==int(record_index)).get()
         if not article:
-            self.render('record', context)
+            self.redirect(self.uri_for('home'))
             return
 
         info = {
