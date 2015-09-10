@@ -1,5 +1,9 @@
 $(document).ready(function() {
-    var page = 1;
+    var cursor = $('#cursor').val();
+    if (!cursor) {
+        return
+    }
+
     var isLoading = false;
     var isOver = false;
     $(window).scroll(function() {
@@ -9,7 +13,7 @@ $(document).ready(function() {
             $.ajax({
                 type: "POST",
                 url: document.location.href,
-                data: {page: page+1},
+                data: {cursor: cursor},
                 success: function(result) {
                     $('div.preview-article.loading').remove();
                     if(!result.error) {
@@ -20,21 +24,18 @@ $(document).ready(function() {
                                 <div class="time-line"></div>\
                                 <div class="preview-title-line">\
                                     <div class="preview-date">' + article.date + '</div>\
-                                    <a class="preview-title black-link" href="/article/' + article.id + '">' + article.title + '</a>\
+                                    <a class="preview-title black-link" href="/article/' + result.cur_category + '/' + article.index + '">' + article.title + '</a>\
                                 </div>'
                             if (article.image) {
                                 div += '<div class="preview-image"><img class="preview-image" src="' + article.image + '"></div>'
                             }
                             div += '<div class="preview-content">' + article.content + '</div>\
-                                <a class="read-more blue-link" href="/article/' + article.id + '">Read more >></a>\
+                                <a class="read-more blue-link" href="/article/' + result.cur_category + '/' + article.index + '">Read more >></a>\
                             </div>'
                             $('#main-body').append(div);
                         }
-                        if (result.articles.length == 0) {
-                            isOver = true;   
-                        } else {
-                            page++;
-                        }
+                        isOver = !result.cursor;
+                        cursor = result.cursor;
                     } else {
                         pop_ajax_message(result.message, 'error');
                     }

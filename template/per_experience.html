@@ -1,45 +1,25 @@
 {% extends "template/experiences.html" %}
 {% block head %}
 {{ super() }}
-{% block scroll_load %}
 <script src="/static/experience.js" language="JavaScript" type="text/javascript"></script>
 {% endblock %}
-{% endblock %}
-
-{% block experiences_active %}active{% endblock %}
-
-{% block collapse_title %}
-{% if dantube %}
-DanTube
-{% elif youmu_blade_dance %}
-Youmu Blade Dance
-{% elif course %}
-Course Projects
-{% elif others %}
-Others
-{% endif %}
-{% endblock %}
-{% block side_overview_active %}{% endblock %}
-{% block side_dantube_active %}{{ dantube }}{% endblock %}
-{% block side_action_game_active %}{{ youmu_blade_dance }}{% endblock %}
-{% block side_course_active %}{{ course }}{% endblock %}
-{% block side_others_active %}{{ others }}{% endblock %}
 
 {% block main_body %}
 <h2 class="page-title">Journey</h2>
+<input type="hidden" id="cursor" value="{{ cursor }}">
 {% for article in articles %}
 <div class="preview-article">
     <div class="time-circle"></div>
     <div class="time-line"></div>
     <div class="preview-title-line">
         <div class="preview-date">{{ article.date }}</div>
-        <a class="preview-title black-link" href="{{ uri_for('record', record_id=article.id) }}">{{ article.title }}</a>
+        <a class="preview-title black-link" href="{{ uri_for('record', category=cur_category, record_index=article.index) }}">{{ article.title }}</a>
     </div>
     {% if article.image %}
     <div class="preview-image"><img class="preview-image" src="{{ article.image }}"></div>
     {% endif %}
     <div class="preview-content">{{ article.content }}</div>
-    <a class="read-more blue-link" href="{{ uri_for('record', record_id=article.id) }}">Read more >></a>
+    <a class="read-more blue-link" href="{{ uri_for('record', category=cur_category, record_index=article.index) }}">Read more >></a>
 </div>
 {% endfor %}
 {% endblock %}

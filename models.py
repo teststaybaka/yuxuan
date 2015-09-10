@@ -1,17 +1,20 @@
 from google.appengine.ext import ndb
 from google.appengine.ext import blobstore
 from google.appengine.api import images
+from google.appengine.datastore.datastore_query import Cursor
 import time
 import datetime
 
 def time_to_seconds(time):
   return int((time - datetime(2000, 1, 1)).total_seconds())
 
-Categories = ['dantube', 'youmu_blade_dance', 'course', 'others']
+Categories = ['dantube', 'ybd', 'course', 'others']
+Categories_map = {'dantube': 'DanTube', 'ybd': 'Youmu Blade Dance', 'course': 'Course Projects', 'others': 'Others'}
 
 class Article(ndb.Model):
-    title = ndb.StringProperty()
-    content = ndb.TextProperty()
+    index = ndb.IntegerProperty(required=True)
+    title = ndb.StringProperty(indexed=False)
+    content = ndb.TextProperty(indexed=False)
     # images = ndb.BlobKeyProperty(repeated=True)
     category = ndb.StringProperty(choices=Categories)
     date = ndb.DateTimeProperty()

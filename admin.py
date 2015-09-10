@@ -1,5 +1,14 @@
 from views import *
 
+class RTask(BaseHandler):
+    def get(self):
+        # for cat in Categories:
+        arts = Article.query(Article.category=='youmu_blade_dance').order(-Article.date).fetch()
+        arts.reverse()
+        for i in xrange(0, len(arts)):
+            arts[i].category = 'ybd'
+        ndb.put_multi(arts)
+
 class UploadRemove(BaseHandler):
     def post(self):
         safe_url = self.request.get('safe_url')
@@ -35,8 +44,7 @@ class Edit(BaseHandler):
         try:
             category = self.request.get('category')
             index = int(self.request.get('index'))
-            article_key = Article.query(Article.category==category).order(-Article.date).fetch(keys_only=True, offset=index-1, limit=1)
-            article = article_key[0].get()
+            article = Article.query(Article.category==category, Article.index==index).get()
             context = {
                 'title': article.title,
                 'content': article.content,
@@ -53,8 +61,8 @@ class Edit(BaseHandler):
 
     def post(self):
         try:
-            article_id = self.request.get('id')
-            article = Article.get_by_id(int(article_id))
+            article_id = int(self.request.get('id'))
+            article = Article.get_by_id(article_id)
         except Exception, e:
             article = None
 
@@ -70,8 +78,13 @@ class Edit(BaseHandler):
         #     file_key = blobstore.BlobKey(images[i])
         #     image_keys.append(file_key)
 
-        if article is None:
-            article = Article(title=title, content=content, category=category, date=date)
+        if not article:
+            prev = Article.query(Article.category==category).order(-Article.date).get()
+            if prev:
+                index = prev.index + 1
+            else:
+                index = 1
+            article = Article(title=title, content=content, category=category, date=date, index=index)
         else:
             article.title = title
             article.content = content

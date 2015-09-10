@@ -150,34 +150,32 @@ class Ideas(BaseHandler):
 
 class Experiences(BaseHandler):
     def get(self):
-        context = {}
-        for i in range(0, len(Categories)):
-            category = Categories[i]
-            articles = Article.query(Article.category==category).order(-Article.date).fetch(limit=9)
-            context[category] = []
-            for j in range(0, len(articles)):
-                article = articles[j]
+        context = {'Categories': Categories, 'Categories_map': Categories_map, 'articles': {}}
+        for category in Categories:
+            articles = Article.query(Article.category==category).order(-Article.date).fetch(limit=10)
+            context['articles'][category] = []
+            for article in articles:
                 info = {
                     'title': article.title,
                     'date': article.date.strftime("%Y-%m-%d"),
-                    'id': article.key.id(),
+                    'index': article.index,
                 }
-                context[category].append(info)
+                context['articles'][category].append(info)
 
         self.render('experiences', context)
 
 class PerExperience(BaseHandler):
     def get(self, category):
         page_size = 5
-
-        articles = Article.query(Article.category==category).order(-Article.date).fetch(limit=page_size)
-        context = {category:'active', 'articles':[]}
+        articles, cursor, more = Article.query(Article.category==category).order(-Article.date).fetch_page(page_size, start_cursor=Cursor())
+        context = {'Categories': Categories, 'Categories_map': Categories_map, 'cur_category': category, 'articles':[]}
+        context['cursor'] = cursor.urlsafe() if more else ''
         for article in articles:
             info = {
                 'title': article.title,
                 'content': re.sub(r'<img.*?>', '', article.content),
                 'date': article.date.strftime("%Y-%m-%d"),
-                'id': article.key.id(),
+                'index': article.index,
             }
             res = re.search(r'<img.*?src="(.*?)".*?>', article.content)
             if res:
@@ -188,22 +186,21 @@ class PerExperience(BaseHandler):
     def post(self, category):
         self.response.headers['Content-Type'] = 'application/json'
         page_size = 5
-        try:
-            page = int(self.request.get('page'))
-            if page < 1:
-                raise ValueError('Negative')
-        except Exception, e:
-            page = 1
+        cursor = self.request.get('cursor')
+        if not cursor:
+            context = {'error': True, 'message': 'Invalid cursor'}
+            return
 
-        article_keys = Article.query(Article.category==category).order(-Article.date).fetch(keys_only=True, offset=(page-1)*page_size, limit=page_size)
-        articles = ndb.get_multi(article_keys)
-        context = {'error': False, 'articles':[]}
+        cursor = Cursor(urlsafe=cursor)
+        articles, cursor, more = Article.query(Article.category==category).order(-Article.date).fetch_page(page_size, start_cursor=cursor)
+        context = {'error': False, 'cur_category': category, 'articles':[]}
+        context['cursor'] = cursor.urlsafe() if more else ''
         for article in articles:
             info = {
                 'title': article.title,
                 'content': re.sub(r'<img.*?>', '', article.content),
                 'date': article.date.strftime("%Y-%m-%d"),
-                'id': article.key.id(),
+                'index': article.index,
             }
             res = re.search(r'<img.*?src="(.*?)".*?>', article.content)
             if res:
@@ -213,45 +210,49 @@ class PerExperience(BaseHandler):
         self.response.out.write(json.dumps(context))
 
 class Record(BaseHandler):
-    def get(self, record_id):
-        article = Article.get_by_id(int(record_id))
-        context = {article.category: 'active'}
+    def get(self, category, record_index):
+        context = {'Categories': Categories, 'Categories_map': Categories_map, 'cur_category': category}
+
+        article = Article.query(Article.category==category, Article.index==int(record_index)).get()
+        if not article:
+            self.render('record', context)
+            return
+
         info = {
             'title': article.title,
             'content': article.content,
             'date': article.date.strftime("%Y-%m-%d"),
-            'category': article.category,
-            'id': article.key.id(),
+            'index': article.index,
         }
         context['article'] = info
 
-        articles = Article.query(Article.category==article.category).order(-Article.date).fetch(keys_only=True)
-        idx = articles.index(article.key)
-        if idx > 0:
-            temp = articles[idx-1].get()
+        next_article = Article.query(Article.category==article.category, Article.index==article.index + 1).get()
+        if next_article:
+            logging.info(str(next_article.key.id())+' '+str(next_article.index))
             info = {
-                'title': temp.title,
-                'id': temp.key.id()
+                'title': next_article.title,
+                'index': next_article.index,
             }
             context['next'] = info
-        if idx < len(articles) - 1:
-            temp = articles[idx+1].get()
+
+        prev_article = Article.query(Article.category==article.category, Article.index==article.index - 1).get()
+        if prev_article:
             info = {
-                'title': temp.title,
-                'id': temp.key.id()
+                'title': prev_article.title,
+                'index': prev_article.index,
             }
             context['previous'] = info
 
-        context['comments'] = []
-        comments = Comment.query(Comment.belonged==article.key).order(-Comment.date).fetch()
-        for i in range(0, len(comments)):
-            comment = comments[i]
-            info = {
-                'name': comment.nickname,
-                'date': comment.date.strftime("%Y-%m-%d %H:%M"),
-                'content': comment.content,
-            }
-            context['comments'].append(info)
+        # context['comments'] = []
+        # comments = Comment.query(Comment.belonged==article.key).order(-Comment.date).fetch()
+        # for i in range(0, len(comments)):
+        #     comment = comments[i]
+        #     info = {
+        #         'name': comment.nickname,
+        #         'date': comment.date.strftime("%Y-%m-%d %H:%M"),
+        #         'content': comment.content,
+        #     }
+        #     context['comments'].append(info)
             
         self.render('record', context)
 

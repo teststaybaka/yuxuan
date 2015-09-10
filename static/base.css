@@ -333,6 +333,11 @@ span.follow-me {
         background-color: rgb(235,235,235);
     }
 
+    .navigation-container.hide {
+        transform: scale(0,0);
+        -webkit-transform: scale(0,0);
+    }
+
     .navigation-container {
         position: absolute;
         width: 100px;
@@ -349,11 +354,6 @@ span.follow-me {
         transform-origin: 85% -5%;
         transform: scale(1,1);
         -webkit-transform: scale(1,1);
-    }
-
-    .navigation-container.hide {
-        transform: scale(0,0);
-        -webkit-transform: scale(0,0);
     }
 
     .navigation-container:before, .navigation-container:after {

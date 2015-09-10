@@ -14,11 +14,12 @@ application = webapp2.WSGIApplication([
     webapp2.Route(r'/ideas', views.Ideas, name='ideas'),
 
     webapp2.Route(r'/journey', views.Experiences, name='experiences'),
+    webapp2.Route(r'/journey/<category:.+?>/<record_index:\d+>', views.Record, name='record'),
     webapp2.Route(r'/journey/<category:.+>', views.PerExperience, name='experience'),
-    webapp2.Route(r'/article/<record_id:\d+>', views.Record, name='record'),
-    webapp2.Route(r'/comment/<record_id:\d+>', views.CommentPost, name='comment_post'),
+    # webapp2.Route(r'/comment/<record_id:\d+>', views.CommentPost, name='comment_post'),
 
     webapp2.Route(r'/admin/edit', admin.Edit, name="content_edit"),
+    webapp2.Route(r'/admin/task', admin.RTask, name="random_task"),
     webapp2.Route(r'/image_upload', admin.Upload, name="image_upload"),
     webapp2.Route(r'/upload_url', admin.UploadURL, name="upload_url"),
     webapp2.Route(r'/image_remove', admin.UploadRemove, name="image_remove"),

@@ -35,11 +35,11 @@ div.exp-title-head {
     background-image: url("/static/basic_icons.png");
 }
 
-div.exp-title-head.tv {
+div.exp-title-head.dantube {
     background-position: 0 -208px;
 }
 
-div.exp-title-head.sword {
+div.exp-title-head.ybd {
     background-position: 0 -176px;
 }
 
