@@ -7,7 +7,7 @@
 {% block experiences_active %}active{% endblock %}
 
 {% block side_bar %}
-<div class="side-collapse">{% if cur_category %}{{ cur_category }}{% else %}Overview{% endif %}</div>
+<div class="side-collapse">{% if cur_category %}{{ Categories_map[cur_category] }}{% else %}Overview{% endif %}</div>
 <div class="side-container">
     <a href="{{ uri_for('experiences') }}" class="side {% if not cur_category %}active{% endif %}">Overview</a>
     {% for cat in Categories %}
