@@ -6,33 +6,34 @@ $(document).ready(function() {
 
     var isLoading = false;
     var isOver = false;
-    $(window).scroll(function() {
+    $(window).scroll(loadMore);
+    
+    function loadMore() {
         if(($(window).scrollTop() >= $(document).height() - $(window).height() - 20) && !isLoading && !isOver) {
             isLoading = true;
-            $('#main-body').append('<div class="preview-article loading"></div>');
+            $('.left-column').append('<div class="preview-article loading"></div>');
             $.ajax({
                 type: "POST",
                 url: document.location.href,
-                data: {cursor: cursor},
+                data: { cursor: cursor },
                 success: function(result) {
-                    $('div.preview-article.loading').remove();
+                    $('.preview-article.loading').remove();
                     if(!result.error) {
                         for (var i = 0; i < result.articles.length; i++) {
                             article = result.articles[i];
                             var div = '<div class="preview-article">\
                                 <div class="time-circle"></div>\
                                 <div class="time-line"></div>\
-                                <div class="preview-title-line">\
-                                    <div class="preview-date">' + article.date + '</div>\
-                                    <a class="preview-title black-link" href="/article/' + result.cur_category + '/' + article.index + '">' + article.title + '</a>\
-                                </div>'
+                                <a class="preview-link" href="/'+article.category+'/'+article.index+'">\
+                                    <div class="preview-title">' + article.title + '</div>\
+                                    <div class="preview-date">' + article.date + '</div>'
                             if (article.image) {
                                 div += '<div class="preview-image"><img class="preview-image" src="' + article.image + '"></div>'
                             }
                             div += '<div class="preview-content">' + article.content + '</div>\
-                                <a class="read-more blue-link" href="/article/' + result.cur_category + '/' + article.index + '">Read more >></a>\
+                                </a>\
                             </div>'
-                            $('#main-body').append(div);
+                            $('.left-column').append(div);
                         }
                         isOver = !result.cursor;
                         cursor = result.cursor;
@@ -50,5 +51,5 @@ $(document).ready(function() {
                 }
             });
         }
-    });
+    }
 });

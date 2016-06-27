@@ -1,0 +1,33 @@
+{% extends "template/base.html" %}
+{% block head %}
+{{ super() }}
+<link href="/static/articles.css" rel="stylesheet" type="text/css">
+<script src="/static/articles.js" language="JavaScript" type="text/javascript" ></script>
+{% endblock %}
+
+{% block body %}
+<input type="hidden" id="cursor" value="{{ cursor }}">
+<div class="left-column">
+    {% for article in articles %}
+    <div class="preview-article">
+        <div class="time-circle"></div>
+        <div class="time-line"></div>
+        <a class="preview-link" href="{{ uri_for('perarticle', category=article.category, index=article.index) }}">
+            <div class="preview-title">{{ article.title }}</div>
+            <div class="preview-date">{{ article.date }}</div>
+            {% if article.image %}
+            <div class="preview-image">
+                <img class="preview-image" src="{{ article.image }}">
+            </div>
+            {% endif %}
+            <div class="preview-content">{{ article.content }}</div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+<div class="right-column">
+    <div class="portrait-title">Yuxuan Xie, Software Engineer</div>
+    <img class="portrait" src="/static/portrait.png">
+    <div class="portrait-text">I'm a software engineer with lots of ideas and initiative, also interested in game developing and video editing.</div>
+</div>
+{% endblock %}

@@ -4,41 +4,16 @@
 <link href="/static/about.css" rel="stylesheet" type="text/css">
 {% endblock %}
 
-{% block about_active %}
-active
-{% endblock %}
-
-{% block side_bar %}
-<div class="side-collapse">{% block collapse_title %}About{% endblock %}</div>
-<div class="side-container">
-    <a href="{{ uri_for('about') }}" class="side {% block side_about_active %}active{% endblock %}">About</a>
-    <a href="{{ uri_for('contact') }}" class="side {% block side_contact_active %}{% endblock %}">Contact</a>
-    <!-- <a href="{{ uri_for('hire_me') }}" class="side {% block side_hire_active %}{% endblock %}">Hire Me</a> -->
+{% block body %}
+<div class="about-content">
+    <h2>
+        A bit about me...
+    </h2>
+    <img class="portrait" src="/static/portrait.png">
+    <p>Hi, I'm Yuxuan Xie, graduated from Columbia University with M.S. degree, now working as a software engineer at Google.</p>
+    <p>I'm interested in Cloud Computing, Artificial Intelligence, video game development and video editing. My progress is recorded on this site.</p>
+    <p>I’ve been developing a video website featuring danmaku which are the comments that flying across the screen while watching videos. The site is called Danmage (www.danmage.com). It’s based on Google App Engine and YouTube as video source.</p>
+    <p>An action game, Youmu Blade Dance, is also under developing. However, since I’m not a professional game developer, it will cost a lot time to finish it. But I believe I shall publish it in the future.</p>
+    <p>The biggest ambition is to invent a robot that can act like animal. I’m currently researching on neural networks and Q-learning. I believe those theories are the right track to the real intelligence.</p>
 </div>
-{% endblock %}
-
-{% block main_body %}
-<h2>
-    A bit about me...
-</h2>
-<img class="portrait" src="/static/portrait.png">
-<p>
-    Hello, I'm Yuxuan Xie or Alan. Welcome!
-</p>
-<p>
-    I'm a student graduated from Tsinghua University and studying at Columbia University in the City of New York, pursuing master degree. Majored in computer science, I've learned and coded a lot. Some of my experiences are recorded in <a href="{{ uri_for('experiences') }}" class="blue-link">my journey</a>.
-</p>
-<p>
-   During these study days, my mind is filled with a lot of ideas. In the old days, I thought any of them requires a large team and I had to wait until I was able to put together some people. But would that day ever come? Why not just start them by myself? You can find some of them in <a href="{{ uri_for('ideas') }}" class="blue-link">my ideas</a>.
-</p>
-<p>
-    One of my ideas is a danmaku video website, which makes it different from the other video sites is <i><b>Danmaku</b></i>. Here, <i>danmaku</i> means comments, but instead of leaving them below the video, those comments are flying across the screen while playing.
-</p>
-<p>
-    The website is on building now.
-</p>
-<a class="catch-button" target="_blank" href="https://dan-tube.appspot.com">Go to it → dan-tube.appspot.com</a>
-<p>
-    Another one is to make an action game. It's a warm-up project to let me learn some game developing techniques. Although a one-man team is hardly promising, I don't want to give up now.
-</p>
 {% endblock %}

@@ -2,65 +2,43 @@
 <html>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <head>
+        <title>My dashboard</title>
     {% block head %}
-        <title>Yuxuan(Alan) Xie</title>
         <link href="/static/base.css" rel="stylesheet" type="text/css">
         <script src="/static/jquery.min.js" language="JavaScript" type="text/javascript" ></script>
         <script src="/static/jquery.dotdotdot.min.js" type="text/javascript"></script>
-        <script src="/static/base.js" language="JavaScript" type="text/javascript"></script>
+        <script src="/static/base.js" language="JavaScript" type="text/javascript" ></script>
     {% endblock %}
     </head>
-    <body>
-        <div id="fb-root"></div>
-        <div class="body-background">
-            <div id="header">
-                {% block header %}
-                <a id="name-logo" href="/">
-                    <img src="/static/logo.png">
-                    <!-- <br>
-                    <span>Yuxuan Xie (Alan)</span> -->
-                </a>
-                <div class="navigation-collapse"></div>
-                <div class="navigation-container hide">
-                    <a class="navigation {% block home_active %}{% endblock %}" href="{{ uri_for('home') }}">Home</a>
-                    <a class="navigation {% block about_active %}{% endblock %}" href="{{ uri_for('about') }}">About</a>
-                    <a class="navigation {% block experiences_active %}{% endblock %}" href="{{ uri_for('experiences') }}">Journey</a>
-                    <a class="navigation {% block ideas_active %}{% endblock %}" href="{{ uri_for('ideas') }}">Ideas</a>
-                </div>
-                {% if need_search %}
-                <div id="site-search">
-                    <input class="text" id="search-field" type="text"/>
-                    <button class="search" id="search-button">Search</button>
-                </div>
-                {% endif %}
-                {% endblock %}
-            </div>
+    <div class="top-bar container">
+        <a class="logo" href="/">
+            <img src="/static/logo_white.png">
+        </a>
+        <div class="banner">The future is now!</div>
+    </div>
+    <div class="navi">
+        <a href="/" class="navi-entry home">Home</a>
+        {% for cat in Categories %}
+        <a href="{{ uri_for('articles', category=cat) }}" class="navi-entry {{ cat }}">{{ Categories_map[cat] }}</a>
+        {% endfor %}
+        <a href="{{ uri_for('about') }}" class="navi-entry about">About</a>
+        <a href="{{ uri_for('contact') }}" class="navi-entry contact">Contact</a>
+    </div>
+    
+    {% block body %}
+    {% endblock %}
 
-            <div id="body" class="container">
-                <div id="side-bar" class="hide">
-                    {% block side_bar %}
-                    {% endblock %}
-                </div>
-                <div id="main-body" class="container">
-                    {% block main_body %}
-                    {% endblock %}
-                </div>
-            </div>
+    <div class="social-buttons-box">
+        <div>
+            <span class="follow-me">Follow me at:</span>
         </div>
+        <div>
+            <a class="social-button facebook" href="https://www.facebook.com/teststaybaka" target="_blank"></a>
+            <a class="social-button twitter" href="https://twitter.com/teststaybaka" target="_blank"></a>
+            <a class="social-button google" href="https://plus.google.com/113968793896885544682" target="_blank"></a>
+            <a class="social-button linkedin" href="https://www.linkedin.com/in/yuxuanxie" target="_blank"></a>
+        </div>
+    </div>
 
-        <div class="social-buttons-box">
-            <div>
-                <span class="follow-me">Follow me at:</span>
-            </div>
-            <div>
-                <a class="social-button facebook" href="https://www.facebook.com/teststaybaka" target="_blank"></a>
-                <a class="social-button twitter" href="https://twitter.com/teststaybaka" target="_blank"></a>
-                <a class="social-button google" href="https://plus.google.com/113968793896885544682" target="_blank"></a>
-                <a class="social-button linkedin" href="https://www.linkedin.com/in/yuxuanxie" target="_blank"></a>
-            </div>
-        </div>
-
-        <div id="ajax-message-box">
-        </div>
-    </body>
+    <div id="fb-root"></div>
 </html>

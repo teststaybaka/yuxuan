@@ -65,16 +65,6 @@ div.ajax-message {
     box-shadow: -2px 2px 4px rgb(200,200,200);
 }
 
-/*div.ajax-message.success {
-    border: 3px solid rgb(97,194,84);
-    background-color: rgb(227,255,223);
-}
-
-div.ajax-message.error {
-    border: 3px solid rgb(222,65,65);
-    background-color: rgb(255,240,240);
-}*/
-
 div.ajax-icon {
     width: 32px;
     height: 32px;

@@ -1,0 +1,18 @@
+{% extends "template/base.html" %}
+{% block head %}
+{{ super() }}
+<link href="/static/about.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+$(document).ready(function() {
+    setTimeout(function() {
+        window.location.href = '/';
+    }, 5000);
+});
+</script>
+{% endblock %}
+
+{% block body %}
+<div class="contact-content">
+    <div class="mail-sent">{{ message }}</div>
+</div>
+{% endblock %}

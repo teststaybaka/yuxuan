@@ -9,7 +9,8 @@ def time_to_seconds(time):
   return int((time - datetime(2000, 1, 1)).total_seconds())
 
 Categories = ['dantube', 'ybd', 'course', 'others']
-Categories_map = {'dantube': 'DanTube', 'ybd': 'Youmu Blade Dance', 'course': 'Course Projects', 'others': 'Others'}
+Categories_map = {'dantube': 'DanTube', 'ybd': 'YBD', 'course': 'Scholar', 'others': 'Notes'}
+PAGE_SIZE = 2
 
 class Article(ndb.Model):
     index = ndb.IntegerProperty(required=True)

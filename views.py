@@ -12,7 +12,6 @@ import mimetypes
 import urllib
 import urllib2
 import re
-from webapp2_extras import sessions
 from jinja2 import Undefined
 from google.appengine.ext import ndb
 from google.appengine.api import mail
@@ -38,33 +37,18 @@ env.globals = {
 }
 
 class BaseHandler(webapp2.RequestHandler):
-    def dispatch(self):
-        """
-        This snippet of code is taken from the webapp2 framework documentation.
-        See more at
-        http://webapp-improved.appspot.com/api/webapp2_extras/sessions.html
-
-        """
-        self.session_store = sessions.get_store(request=self.request)
-        try:
-            webapp2.RequestHandler.dispatch(self)
-        finally:
-            self.session_store.save_sessions(self.response)
-
-    @webapp2.cached_property
-    def session(self):
-        """
-        This snippet of code is taken from the webapp2 framework documentation.
-        See more at
-        http://webapp-improved.appspot.com/api/webapp2_extras/sessions.html
-
-        """
-        return self.session_store.get_session()
-
     def render(self, tempname, context = {}):
+        context.update({
+            'Categories': Categories,
+            'Categories_map': Categories_map,
+        })
         path = 'template/' + tempname + '.html'
         template = env.get_template(path)
         self.response.write(template.render(context))
+
+    def response_json(self, context = {}):
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps(context))
 
     def notify(self, message, message_type='error'):
         self.response.headers['Content-Type'] = 'application/json'
@@ -73,106 +57,58 @@ class BaseHandler(webapp2.RequestHandler):
             'message': message
         }))
 
-class MultiPartForm(object):
-    """Accumulate the data to be used when posting a form."""
-
-    def __init__(self):
-        self.form_fields = []
-        self.files = []
-        self.boundary = mimetools.choose_boundary()
-        return
-    
-    def get_content_type(self):
-        return 'multipart/form-data; boundary=%s' % self.boundary
-
-    def add_field(self, name, value):
-        """Add a simple field to the form data."""
-        self.form_fields.append((name, value))
-        return
-
-    def add_file(self, fieldname, filename, fileHandle, mimetype=None):
-        """Add a file to be uploaded."""
-        body = fileHandle.read()
-        if mimetype is None:
-            mimetype = mimetypes.guess_type(filename)[0] or 'application/octet-stream'
-        self.files.append((fieldname, filename, mimetype, body))
-        return
-    
-    def __str__(self):
-        """Return a string representing the form data, including attached files."""
-        # Build a list of lists, each containing "lines" of the
-        # request.  Each part is separated by a boundary string.
-        # Once the list is built, return a string where each
-        # line is separated by '\r\n'.  
-        parts = []
-        part_boundary = '--' + self.boundary
-        
-        # Add the form fields
-        parts.extend(
-            [ part_boundary,
-              'Content-Disposition: form-data; name="%s"' % name,
-              '',
-              value,
-            ]
-            for name, value in self.form_fields
-            )
-        
-        # Add the files to upload
-        parts.extend(
-            [ part_boundary,
-              'Content-Disposition: file; name="%s"; filename="%s"' % \
-                 (field_name, filename),
-              'Content-Type: %s' % content_type,
-              '',
-              body,
-            ]
-            for field_name, filename, content_type, body in self.files
-            )
-        
-        # Flatten the list and add closing boundary marker,
-        # then return CR+LF separated data
-        flattened = list(itertools.chain(*parts))
-        flattened.append('--' + self.boundary + '--')
-        flattened.append('')
-        return '\r\n'.join(flattened)
-
 class Home(BaseHandler):
     def get(self):
-        self.render('home')
+        context = {'articles': []}
+        articles, cursor, more = Article.query().order(-Article.date).fetch_page(PAGE_SIZE, start_cursor=Cursor())
+        context['cursor'] = cursor.urlsafe() if more else ''
+        for article in articles:
+            info = {
+                'title': article.title,
+                'content': re.sub(r'<img.*?>', '', article.content),
+                'date': article.date.strftime("%Y-%m-%d"),
+                'index': article.index,
+                'category': article.category,
+            }
+            res = re.search(r'<img.*?src="(.*?)".*?>', article.content)
+            if res:
+                info['image'] = res.group(1)
+            context['articles'].append(info)
+        self.render('articles', context)
 
-class About(BaseHandler):
-    def get(self):
-        self.render('about')
+    def post(self):
+        cursor = self.request.get('cursor')
+        if not cursor:
+            context = {'error': True, 'message': 'Invalid cursor'}
+            self.response_json(context)
+            return
 
-class Ideas(BaseHandler):
-    def get(self):
-        self.render('ideas')
+        cursor = Cursor(urlsafe=cursor)
+        articles, cursor, more = Article.query().order(-Article.date).fetch_page(PAGE_SIZE, start_cursor=cursor)
+        context = {'error': False, 'articles':[]}
+        context['cursor'] = cursor.urlsafe() if more else ''
+        for article in articles:
+            info = {
+                'title': article.title,
+                'content': re.sub(r'<img.*?>', '', article.content),
+                'date': article.date.strftime("%Y-%m-%d"),
+                'index': article.index,
+                'category': article.category,
+            }
+            res = re.search(r'<img.*?src="(.*?)".*?>', article.content)
+            if res:
+                info['image'] = res.group(1)
+            context['articles'].append(info)
+        self.response_json(context)
 
-class Experiences(BaseHandler):
-    def get(self):
-        context = {'Categories': Categories, 'Categories_map': Categories_map, 'articles': {}}
-        for category in Categories:
-            articles = Article.query(Article.category==category).order(-Article.date).fetch(limit=10)
-            context['articles'][category] = []
-            for article in articles:
-                info = {
-                    'title': article.title,
-                    'date': article.date.strftime("%Y-%m-%d"),
-                    'index': article.index,
-                }
-                context['articles'][category].append(info)
-
-        self.render('experiences', context)
-
-class PerExperience(BaseHandler):
+class Articles(BaseHandler):
     def get(self, category):
         if category not in Categories:
             self.redirect(self.uri_for('home'))
             return
 
-        page_size = 5
-        articles, cursor, more = Article.query(Article.category==category).order(-Article.date).fetch_page(page_size, start_cursor=Cursor())
-        context = {'Categories': Categories, 'Categories_map': Categories_map, 'cur_category': category, 'articles':[]}
+        context = {'articles': []}
+        articles, cursor, more = Article.query(Article.category==category).order(-Article.date).fetch_page(PAGE_SIZE, start_cursor=Cursor())
         context['cursor'] = cursor.urlsafe() if more else ''
         for article in articles:
             info = {
@@ -180,28 +116,28 @@ class PerExperience(BaseHandler):
                 'content': re.sub(r'<img.*?>', '', article.content),
                 'date': article.date.strftime("%Y-%m-%d"),
                 'index': article.index,
+                'category': article.category,
             }
             res = re.search(r'<img.*?src="(.*?)".*?>', article.content)
             if res:
                 info['image'] = res.group(1)
             context['articles'].append(info)
-        self.render('per_experience', context)
+        self.render('articles', context)
 
     def post(self, category):
         if category not in Categories:
-            self.redirect(self.notify('Invalid category', 'error'))
+            self.notify('Invalid category', 'error')
             return
 
-        self.response.headers['Content-Type'] = 'application/json'
-        page_size = 5
         cursor = self.request.get('cursor')
         if not cursor:
             context = {'error': True, 'message': 'Invalid cursor'}
+            self.response_json(context)
             return
 
         cursor = Cursor(urlsafe=cursor)
-        articles, cursor, more = Article.query(Article.category==category).order(-Article.date).fetch_page(page_size, start_cursor=cursor)
-        context = {'error': False, 'cur_category': category, 'articles':[]}
+        articles, cursor, more = Article.query(Article.category==category).order(-Article.date).fetch_page(PAGE_SIZE, start_cursor=cursor)
+        context = {'error': False, 'articles':[]}
         context['cursor'] = cursor.urlsafe() if more else ''
         for article in articles:
             info = {
@@ -209,33 +145,34 @@ class PerExperience(BaseHandler):
                 'content': re.sub(r'<img.*?>', '', article.content),
                 'date': article.date.strftime("%Y-%m-%d"),
                 'index': article.index,
+                'category': article.category,
             }
             res = re.search(r'<img.*?src="(.*?)".*?>', article.content)
             if res:
                 info['image'] = res.group(1)
             context['articles'].append(info)
+        self.response_json(context)
 
-        self.response.out.write(json.dumps(context))
-
-class Record(BaseHandler):
-    def get(self, category, record_index):
+class PerArticle(BaseHandler):
+    def get(self, category, index):
         if category not in Categories:
             self.redirect(self.uri_for('home'))
             return
 
-        context = {'Categories': Categories, 'Categories_map': Categories_map, 'cur_category': category}
-        article = Article.query(Article.category==category, Article.index==int(record_index)).get()
+        article = Article.query(Article.category==category, Article.index==int(index)).get()
         if not article:
             self.redirect(self.uri_for('home'))
             return
 
-        info = {
-            'title': article.title,
-            'content': article.content,
-            'date': article.date.strftime("%Y-%m-%d"),
-            'index': article.index,
+        context = {
+            'article': {
+                'title': article.title,
+                'content': article.content,
+                'date': article.date.strftime("%Y-%m-%d"),
+                'index': article.index,
+                'category': article.category,
+            }
         }
-        context['article'] = info
 
         next_article = Article.query(Article.category==article.category, Article.index==article.index + 1).get()
         if next_article:
@@ -254,26 +191,15 @@ class Record(BaseHandler):
             }
             context['previous'] = info
 
-        # context['comments'] = []
-        # comments = Comment.query(Comment.belonged==article.key).order(-Comment.date).fetch()
-        # for i in range(0, len(comments)):
-        #     comment = comments[i]
-        #     info = {
-        #         'name': comment.nickname,
-        #         'date': comment.date.strftime("%Y-%m-%d %H:%M"),
-        #         'content': comment.content,
-        #     }
-        #     context['comments'].append(info)
-            
-        self.render('record', context)
+        self.render('article', context)
+
+class About(BaseHandler):
+    def get(self):
+        self.render('about')
 
 class Contact(BaseHandler):
     def get(self):
         self.render('contact')
-
-class HireMe(BaseHandler):
-    def get(self):
-        self.render('hire_me')
 
 class SendEmail(BaseHandler):
     def post(self):
@@ -293,28 +219,14 @@ class SendEmail(BaseHandler):
             message.body = 'An email send from '+name+' ('+email+').\n\n'+ content
             message.send()
 
-            self.notify('Thank you very much. I\'ve received your email :)', 'success')
+            context = {
+                'message': 'Thank you very much. I\'ve received your message. :)',
+                'error': False,
+            }
+            self.render('sent', context)
         except Exception, e:
-            self.notify(str(e), 'error')
-
-class CommentPost(BaseHandler):
-    def post(self, record_id):
-        try:
-            article = Article.get_by_id(int(record_id))
-            name = self.request.get('name').strip()
-            email = self.request.get('email').strip()
-            content = self.request.get('content').strip()
-
-            message = mail.EmailMessage()
-            message.sender = 'yuxuanalan@appspot.gserviceaccount.com'
-            message.to = 'teststaybaka@gmail.com'
-            message.subject = name+' posted a comment on "'+article.title+'"'
-            message.body = content
-            message.send()
-
-            comment = Comment(belonged = article.key, email = email, nickname = name, content = content)
-            comment.put()
-
-            self.notify('Thank you for your comment :)', 'success')
-        except Exception, e:
-            self.notify(str(e), 'error')
+            context = {
+                'message': str(e),
+                'error': True,
+            }
+            self.render('sent', context)

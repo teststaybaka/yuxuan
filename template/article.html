@@ -1,0 +1,32 @@
+{% extends "template/base.html" %}
+{% block head %}
+{{ super() }}
+<link href="/static/articles.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block body %}
+<div class="left-column">
+    <div class="article-title-line container">
+        <div class="article-title">{{ article.title }}</div>
+        <div>
+            <div class="article-date">{{ article.date }}</div>
+            <div class="fb-like" data-href="" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+        </div>
+    </div>
+    <div class="article-content">{{ article.content }}</div>
+    <div class="article-change-line container">
+        {% if previous %}
+        <a class="blue-link article-previous" href="{{ uri_for('perarticle', category=article.category, index=previous.index) }}">{{ previous.title }}</a>
+        {% endif %}
+        {% if next %}
+        <a class="blue-link article-next" href="{{ uri_for('perarticle', category=article.category, index=next.index) }}">{{ next.title }}</a>
+        {% endif %}
+        <a class="blue-link article-back" href="{{ uri_for('articles', category=article.category) }}">Back</a>
+    </div>
+</div>
+<div class="right-column">
+    <div class="portrait-title">Yuxuan Xie, Software Engineer</div>
+    <img class="portrait" src="/static/portrait.png">
+    <div class="portrait-text">I'm a software engineer with lots of ideas and initiative, also interested in game developing and video editing.</div>
+</div>
+{% endblock %}

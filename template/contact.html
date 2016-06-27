@@ -1,36 +1,34 @@
-{% extends "template/about.html" %}
+{% extends "template/base.html" %}
 {% block head %}
 {{ super() }}
+<link href="/static/about.css" rel="stylesheet" type="text/css">
 {% endblock %}
 
-{% block collapse_title %}Contact{% endblock %}
-
-{% block side_about_active %}{% endblock %}
-{% block side_contact_active %}active{% endblock %}
-
-{% block main_body %}
-<h2>
-    Contact me
-</h2>
-<form method="POST" action="send_email">
-    <div class="input-line">
-        <label>Name </label>
-        <input type="text" name="name" required>
-    </div>
-    <div class="input-line">
-        <label>Email </label>
-        <input type="text" name="email" required>
-    </div>
-    <div class="input-line">
-        <label>Subject </label>
-        <input type="text" name="subject" required>
-    </div>
-    <div class="input-line">
-        <label>Message </label>
-        <textarea name="content" required></textarea>
-    </div>
-    <div class="input-line">
-        <input type="submit" class="button special" value="Send">
-    </div>
-</form>
+{% block body %}
+<div class="contact-content">
+    <h2>
+        Contact me
+    </h2>
+    <form method="POST" action="send_email">
+        <div class="input-line">
+            <label>Name </label>
+            <input type="text" name="name" required>
+        </div>
+        <div class="input-line">
+            <label>Email </label>
+            <input type="text" name="email" required>
+        </div>
+        <div class="input-line">
+            <label>Subject </label>
+            <input type="text" name="subject" required>
+        </div>
+        <div class="input-line">
+            <label>Message </label>
+            <textarea name="content" required></textarea>
+        </div>
+        <div class="input-line">
+            <input type="submit" class="button special" value="Send">
+        </div>
+    </form>
+</div>
 {% endblock %}
