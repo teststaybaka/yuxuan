@@ -4,13 +4,14 @@ from google.appengine.api import images
 from google.appengine.datastore.datastore_query import Cursor
 import time
 import datetime
+import re
 
 def time_to_seconds(time):
   return int((time - datetime(2000, 1, 1)).total_seconds())
 
 Categories = ['dantube', 'ybd', 'course', 'others']
 Categories_map = {'dantube': 'DanTube', 'ybd': 'YBD', 'course': 'Scholar', 'others': 'Notes'}
-PAGE_SIZE = 2
+PAGE_SIZE = 5
 
 class Article(ndb.Model):
     index = ndb.IntegerProperty(required=True)
@@ -19,6 +20,24 @@ class Article(ndb.Model):
     # images = ndb.BlobKeyProperty(repeated=True)
     category = ndb.StringProperty(choices=Categories)
     date = ndb.DateTimeProperty()
+
+    def preview_info(self):
+        info = {
+            'title': self.title,
+            'date': self.date.strftime("%Y-%m-%d"),
+            'index': self.index,
+            'category': self.category,
+        }
+        
+        content = re.sub(r'<img.*?>', '', self.content)
+        content = re.sub(r'<a.*?>.*?</a>', '', content)
+        info['content'] = content
+
+        res = re.search(r'<img.*?src="(.*?)".*?>', self.content)
+        if res:
+            info['image'] = res.group(1)
+
+        return info
 
 class Comment(ndb.Model):
     belonged = ndb.KeyProperty()

@@ -6,10 +6,15 @@ $(document).ready(function() {
 
     var isLoading = false;
     var isOver = false;
-    $(window).scroll(loadMore);
+    $(window).scroll(tryLoadMore);
+    tryLoadMore();
     
-    function loadMore() {
-        if(($(window).scrollTop() >= $(document).height() - $(window).height() - 20) && !isLoading && !isOver) {
+    function windowAtBottom() {
+        return ($(window).scrollTop() >= $(document).height() - $(window).height() - 20);
+    }
+    
+    function tryLoadMore() {
+        if(windowAtBottom() && !isLoading && !isOver) {
             isLoading = true;
             $('.left-column').append('<div class="preview-article loading"></div>');
             $.ajax({
@@ -41,6 +46,7 @@ $(document).ready(function() {
                         pop_ajax_message(result.message, 'error');
                     }
                     isLoading = false;
+                    tryLoadMore();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     isLoading = false;

@@ -37,7 +37,7 @@
     padding-left: 20px;
     position: relative;
     box-sizing: border-box;
-    padding-bottom: 5px;
+    padding-bottom: 30px;
 }
 
 .preview-article.loading {
@@ -97,6 +97,10 @@
     font-size: 14px;
 }
 
+.preview-date {
+    margin-bottom: 10px;
+}
+
 .article-date {
     display: inline-block;
     vertical-align: middle;
@@ -123,6 +127,7 @@ img.preview-image {
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 1;
+    color: rgb(100,100,100);
 }
 
 .article-title-line {
@@ -173,4 +178,10 @@ a.article-next {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+p iframe {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }

@@ -63,17 +63,7 @@ class Home(BaseHandler):
         articles, cursor, more = Article.query().order(-Article.date).fetch_page(PAGE_SIZE, start_cursor=Cursor())
         context['cursor'] = cursor.urlsafe() if more else ''
         for article in articles:
-            info = {
-                'title': article.title,
-                'content': re.sub(r'<img.*?>', '', article.content),
-                'date': article.date.strftime("%Y-%m-%d"),
-                'index': article.index,
-                'category': article.category,
-            }
-            res = re.search(r'<img.*?src="(.*?)".*?>', article.content)
-            if res:
-                info['image'] = res.group(1)
-            context['articles'].append(info)
+            context['articles'].append(article.preview_info())
         self.render('articles', context)
 
     def post(self):
@@ -88,17 +78,7 @@ class Home(BaseHandler):
         context = {'error': False, 'articles':[]}
         context['cursor'] = cursor.urlsafe() if more else ''
         for article in articles:
-            info = {
-                'title': article.title,
-                'content': re.sub(r'<img.*?>', '', article.content),
-                'date': article.date.strftime("%Y-%m-%d"),
-                'index': article.index,
-                'category': article.category,
-            }
-            res = re.search(r'<img.*?src="(.*?)".*?>', article.content)
-            if res:
-                info['image'] = res.group(1)
-            context['articles'].append(info)
+            context['articles'].append(article.preview_info())
         self.response_json(context)
 
 class Articles(BaseHandler):
@@ -111,17 +91,7 @@ class Articles(BaseHandler):
         articles, cursor, more = Article.query(Article.category==category).order(-Article.date).fetch_page(PAGE_SIZE, start_cursor=Cursor())
         context['cursor'] = cursor.urlsafe() if more else ''
         for article in articles:
-            info = {
-                'title': article.title,
-                'content': re.sub(r'<img.*?>', '', article.content),
-                'date': article.date.strftime("%Y-%m-%d"),
-                'index': article.index,
-                'category': article.category,
-            }
-            res = re.search(r'<img.*?src="(.*?)".*?>', article.content)
-            if res:
-                info['image'] = res.group(1)
-            context['articles'].append(info)
+            context['articles'].append(article.preview_info())
         self.render('articles', context)
 
     def post(self, category):
@@ -140,17 +110,7 @@ class Articles(BaseHandler):
         context = {'error': False, 'articles':[]}
         context['cursor'] = cursor.urlsafe() if more else ''
         for article in articles:
-            info = {
-                'title': article.title,
-                'content': re.sub(r'<img.*?>', '', article.content),
-                'date': article.date.strftime("%Y-%m-%d"),
-                'index': article.index,
-                'category': article.category,
-            }
-            res = re.search(r'<img.*?src="(.*?)".*?>', article.content)
-            if res:
-                info['image'] = res.group(1)
-            context['articles'].append(info)
+            context['articles'].append(article.preview_info())
         self.response_json(context)
 
 class PerArticle(BaseHandler):
