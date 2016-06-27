@@ -17,10 +17,10 @@
     <div class="article-content">{{ article.content }}</div>
     <div class="article-change-line container">
         {% if previous %}
-        <a class="blue-link article-previous" href="{{ uri_for('perarticle', category=article.category, index=previous.index) }}">{{ previous.title }}</a>
+        <a class="blue-link article-previous" href="{{ uri_for('perarticle', category=article.category, index=previous.index) }}">Prev: {{ previous.title }}</a>
         {% endif %}
         {% if next %}
-        <a class="blue-link article-next" href="{{ uri_for('perarticle', category=article.category, index=next.index) }}">{{ next.title }}</a>
+        <a class="blue-link article-next" href="{{ uri_for('perarticle', category=article.category, index=next.index) }}">Next: {{ next.title }}</a>
         {% endif %}
         <a class="blue-link article-back" href="{{ uri_for('articles', category=article.category) }}">Back</a>
     </div>

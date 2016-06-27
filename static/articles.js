@@ -12,7 +12,7 @@ $(document).ready(function() {
     function windowAtBottom() {
         return ($(window).scrollTop() >= $(document).height() - $(window).height() - 20);
     }
-    
+
     function tryLoadMore() {
         if(windowAtBottom() && !isLoading && !isOver) {
             isLoading = true;
@@ -42,10 +42,9 @@ $(document).ready(function() {
                         }
                         isOver = !result.cursor;
                         cursor = result.cursor;
-                    } else {
-                        pop_ajax_message(result.message, 'error');
                     }
                     isLoading = false;
+                    ellipsisPreview();
                     tryLoadMore();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -53,7 +52,6 @@ $(document).ready(function() {
                     $('div.preview-article.loading').remove();
                     console.log(xhr.status);
                     console.log(thrownError);
-                    pop_ajax_message(xhr.status+' '+thrownError, 'error');
                 }
             });
         }

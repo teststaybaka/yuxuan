@@ -4,8 +4,17 @@ function numberWithCommas(x) {
     return parts.join(".");
 }
 
+function ellipsisPreview() {
+    $('div.preview-content').dotdotdot({
+        ellipsis    : '... ',
+        fallbackToLetter: true,
+        wrap        : 'word',
+        height      : 130,
+    });
+}
+
 $(document).ready(function() {
-    $('div.preview-content').dotdotdot();
+    ellipsisPreview();
     $('span.comments-num').each(function() {
         $(this).text(numberWithCommas($(this).text()) );
     });

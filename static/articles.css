@@ -37,7 +37,7 @@
     padding-left: 20px;
     position: relative;
     box-sizing: border-box;
-    padding-bottom: 30px;
+    padding-bottom: 10px;
 }
 
 .preview-article.loading {
@@ -123,10 +123,6 @@ img.preview-image {
 
 .preview-content {
     font-size: initial;
-    max-height: 110px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1;
     color: rgb(100,100,100);
 }
 
@@ -153,9 +149,9 @@ img {
 a.article-previous {
     float: left;
     display: block;
-    max-width: calc(50% - 25px);
-    max-width: -moz-calc(50% - 25px); /* Firefox */
-    max-width: -webkit-calc(50% - 25px); /* Chrome, Safari */
+    max-width: calc(50% - 40px);
+    max-width: -moz-calc(50% - 40px); /* Firefox */
+    max-width: -webkit-calc(50% - 40px); /* Chrome, Safari */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -172,9 +168,9 @@ a.article-back {
 a.article-next {
     float: right;
     display: block;
-    max-width: calc(50% - 25px);
-    max-width: -moz-calc(50% - 25px); /* Firefox */
-    max-width: -webkit-calc(50% - 25px); /* Chrome, Safari */
+    max-width: calc(50% - 40px);
+    max-width: -moz-calc(50% - 40px); /* Firefox */
+    max-width: -webkit-calc(50% - 40px); /* Chrome, Safari */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
