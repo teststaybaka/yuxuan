@@ -16,13 +16,16 @@
         </a>
         <div class="banner">The future is now!</div>
     </div>
-    <div class="navi">
-        <a href="/" class="navi-entry home">Home</a>
-        {% for cat in Categories %}
-        <a href="{{ uri_for('articles', category=cat) }}" class="navi-entry {{ cat }}">{{ Categories_map[cat] }}</a>
-        {% endfor %}
-        <a href="{{ uri_for('about') }}" class="navi-entry about">About</a>
-        <a href="{{ uri_for('contact') }}" class="navi-entry contact">Contact</a>
+    <div class="navi-bar">
+        <div class="active-entry"></div>
+        <div class="navi">
+            <a href="/" class="navi-entry home">Home</a>
+            {% for cat in Categories %}
+            <a href="{{ uri_for('articles', category=cat) }}" class="navi-entry {{ cat }}">{{ Categories_map[cat] }}</a>
+            {% endfor %}
+            <a href="{{ uri_for('about') }}" class="navi-entry about">About</a>
+            <a href="{{ uri_for('contact') }}" class="navi-entry contact">Contact</a>
+        </div>
     </div>
     
     {% block body %}

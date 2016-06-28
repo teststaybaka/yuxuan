@@ -139,6 +139,7 @@ img {
     max-height: 600px;
     margin-left: auto;
     margin-right: auto;
+    display: block;
 }
 
 .article-change-line {
@@ -181,3 +182,26 @@ p iframe {
     margin-right: auto;
     display: block;
 }
+
+@media screen and (max-width: 1100px) {
+.left-column {
+    margin-left: 7%;
+}
+
+}
+
+@media screen and (max-width: 700px) {
+.left-column {
+    display: block;
+    width: initial;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 40px;
+}
+
+.right-column {
+    display: none;
+}
+
+}
+

@@ -23,8 +23,10 @@ $(document).ready(function() {
     var parts = url.split('/');
     if (parts[3] === '') {
         $('.navi-entry.home').addClass('active');
+        $('.active-entry').text($('.navi-entry.home').text());
     } else {
         $('.navi-entry.'+parts[3]).addClass('active');
+        $('.active-entry').text($('.navi-entry.'+parts[3]).text());
     }
 
     (function(d, s, id) {
@@ -34,4 +36,9 @@ $(document).ready(function() {
         js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
+
+    $('.navi-bar').click(function() {
+        $('.navi-bar').toggleClass('show');
+        $('.navi').toggleClass('show');
+    });
 });
