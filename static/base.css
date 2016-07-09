@@ -35,7 +35,7 @@ a.blue-link:active {
 }
 
 .top-bar.container {
-    background-image: url('/static/logo.jpg');
+    background-image: url('/static/chess_header.jpg');
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }

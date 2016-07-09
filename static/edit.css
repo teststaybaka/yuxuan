@@ -100,3 +100,14 @@ div.ajax-content {
     /*color: rgb(100,100,100);*/
     padding: 20px 20px 20px 0;
 }
+
+#preview-button {
+    margin: 20px 0;
+}
+
+#MathOutput {
+    border: 1px solid black;
+    height: 300px;
+    overflow: auto;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}

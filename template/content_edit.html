@@ -6,12 +6,20 @@
         <script src="/static/jquery.min.js" language="JavaScript" type="text/javascript" ></script>
         <script src="//cdn.ckeditor.com/4.5.9/full/ckeditor.js"></script>
         <script src="/static/edit.js" language="JavaScript" type="text/javascript" ></script>
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          TeX: { equationNumbers: { autoNumber: "AMS" } }
+        });
+        </script>
+        <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     </head>
     <body>
         <form id="content-form" action="{{ uri_for('content_edit') }}" method="POST">
             <input type="text" name="title" id="title" value="{{ title }}">
             <input type="date" name="date" id="date" value="{{ date }}">
             <textarea name="content" id="editor"></textarea>
+            <input type="button" id="preview-button" value="Preview">
+            <div id="MathOutput"></div>
             <select name="category">
                 <option disabled selected> -- select a category -- </option>
                 {% for cat in Categories %}

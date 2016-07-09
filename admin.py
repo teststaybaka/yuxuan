@@ -2,12 +2,13 @@ from views import *
 
 class RTask(BaseHandler):
     def get(self):
-        # for cat in Categories:
-        arts = Article.query(Article.category=='youmu_blade_dance').order(-Article.date).fetch()
-        arts.reverse()
-        for i in xrange(0, len(arts)):
-            arts[i].category = 'ybd'
-        ndb.put_multi(arts)
+        articles = Article.query(Article.category=='notes').order(-Article.date).fetch()
+        index = len(articles)
+        for article in articles:
+            article.index = index
+            index -= 1
+
+        ndb.put_multi(articles)
 
 class UploadRemove(BaseHandler):
     def post(self):
@@ -93,3 +94,4 @@ class Edit(BaseHandler):
         article.put()
 
         self.notify('Submit successfully.', 'success')
+        

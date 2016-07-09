@@ -9,8 +9,8 @@ import re
 def time_to_seconds(time):
   return int((time - datetime(2000, 1, 1)).total_seconds())
 
-Categories = ['dantube', 'ybd', 'course', 'others']
-Categories_map = {'dantube': 'DanTube', 'ybd': 'YBD', 'course': 'Scholar', 'others': 'Notes'}
+Categories = ['dantube', 'ybd', 'notes']
+Categories_map = {'dantube': 'DanTube', 'ybd': 'YBD', 'notes': 'Notes'}
 PAGE_SIZE = 5
 
 class Article(ndb.Model):

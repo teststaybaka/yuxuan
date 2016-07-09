@@ -17,8 +17,18 @@ function pop_ajax_message(content, type) {
 }
 
 $(document).ready(function() {
-    CKEDITOR.replace( 'editor' );
+    CKEDITOR.replace('editor');
     CKEDITOR.instances['editor'].setData($('#original-content').html());
+    $('#preview-button').click(function() {
+        for ( instance in CKEDITOR.instances ) {
+            CKEDITOR.instances[instance].updateElement();
+        }
+        $('#MathOutput').html($('#editor').val());
+        MathJax.Hub.Queue(
+            ["resetEquationNumbers",MathJax.InputJax.TeX],
+            ['Typeset',MathJax.Hub,'MathOutput']
+        );
+    });
 
     $('form').on('click', 'div.remove-image', function() {
         var safe_url = $(this).siblings('input.safe-url').val();
