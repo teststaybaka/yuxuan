@@ -1,0 +1,23 @@
+{
+  "name": "Yuxuan-Xie-Site",
+  "version": "1.0.0",
+  "keywords": [],
+  "author": "Yuxuan Xie",
+  "license": "ISC",
+  "description": "Yuxuan Xie's Site",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teststaybaka/yuxuan.git"
+  },
+  "dependencies": {
+    "@google-cloud/datastore": "^1.4.2",
+    "@google-cloud/logging": "^5.2.0",
+    "@google-cloud/storage": "^1.7.0",
+    "@types/google-cloud__datastore": "^1.3.3",
+    "@types/google-cloud__storage": "^1.7.2",
+    "@types/node": "^7.10.7",
+    "browserify": "^14.5.0",
+    "npm": "^6.10.2",
+    "source-map-support": "^0.4.18"
+  }
+}

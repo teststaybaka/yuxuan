@@ -1,3 +1,7 @@
-*.pyc
+bin/
+node_modules/
 static/ckeditor/
+test_data/test.jpg
+temp*
+*.pyc
 *.psd
